@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .approve-btn,
+        .reject-btn {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .approve-btn:hover,
+        .reject-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pending Patient Registrations</h1>
+    <ul>
+        {% for patient in pending_patients %}
+            <li>
+                {{ patient.username }} - {{ patient.first_name }} {{ patient.last_name }}
+                <button class="approve-btn" onclick="approveRegistration('{{ patient.username }}')">Approve</button>
+                <button class="reject-btn" onclick="rejectRegistration('{{ patient.username }}')">Reject</button>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h1>Pending Doctor Registrations</h1>
+    <ul>
+        {% for doctor in pending_doctors %}
+            <li>
+                {{ doctor.username }} - {{ doctor.first_name }} {{ doctor.last_name }}
+                <button class="approve-btn" onclick="approveRegistration('{{ doctor.username }}')">Approve</button>
+                <button class="reject-btn" onclick="rejectRegistration('{{ doctor.username }}')">Reject</button>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <script>
+        function approveRegistration(username) {
+            // Send a POST request to the approve_registration route with the username
+            fetch(`/approve_registration/${username}`, { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    // You may want to reload the page or update the UI in response to the approval
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function rejectRegistration(username) {
+            // Send a POST request to the reject_registration route with the username
+            fetch(`/reject_registration/${username}`, { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    // You may want to reload the page or update the UI in response to the rejection
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

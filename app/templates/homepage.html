@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthcare Portal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+
+    main {
+      padding: 20px;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .option-container {
+      width: 45%;
+    }
+
+    .option {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .option h2 {
+      color: #333;
+    }
+
+    .option a {
+      display: block;
+      padding: 10px;
+      margin-top: 10px;
+      background-color: #333;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .option a:hover {
+      background-color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Healthcare Portal</h1>
+  </header>
+
+  <main>
+    <div class="option-container">
+      <div class="option">
+        <h2>Patient Login</h2>
+        <a href="/patient_login">Login</a>
+      </div>
+
+      <div class="option">
+        <h2>Doctor Login</h2>
+        <a href="/doctor_login">Login</a>
+      </div>
+
+      <div class="option">
+        <h2>Admin Login</h2>
+        <a href="/admin_login">Login</a>
+      </div>
+    </div>
+
+    <div class="option-container">
+      <div class="option">
+        <h2>Patient Registration</h2>
+        <a href="/patient_registration">Register</a>
+      </div>
+
+      <div class="option">
+        <h2>Doctor Registration</h2>
+        <a href="/doctor_registration">Register</a>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

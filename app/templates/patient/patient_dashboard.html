@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        select, input[type="date"], button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        ul li {
+            margin-bottom: 10px;
+        }
+        ul li ul {
+            margin-top: 5px;
+            padding-left: 20px;
+        }
+        ul li ul li {
+            margin-bottom: 5px;
+        }
+        .availability {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Patient Dashboard, {{ patient_full_name }}</h1>
+
+        <h2>Book Appointment</h2>
+        <form action="/create_appointment" method="POST">
+            <label for="doctor">Choose a Doctor:</label>
+            <select id="doctor" name="doctor">
+                {% for doctor in doctors %}
+                    <option value="{{ doctor.username }}">{{ doctor.username }}</option>
+                {% endfor %}
+            </select>
+            <label for="date">Choose a Date:</label>
+            <input type="date" id="date" name="date" min="{{ today }}">
+            <!-- Hidden field  for full name -->
+            <input type="hidden" id="patient_fullname" name="patient_fullname" value="{{ patient_full_name }}">
+            <button type="submit">Book Appointment</button>
+        </form>
+
+        <h2>Scheduled Appointments</h2>
+        <ul>
+            {% for doctor, busy_dates in busy_dates_by_doctor.items() %}
+                <li class="availability">{{ doctor }}:
+                    <ul>
+                        {% for date in busy_dates %}
+                            <li>{{ date }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
