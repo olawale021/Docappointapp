@@ -1,4 +1,5 @@
 from flask_login import UserMixin
+
 from app import mongo
 
 
@@ -39,7 +40,7 @@ class Doctor(UserMixin):
     def __init__(self, username, first_name,
                  last_name, date_of_birth,
                  phone_number, password,
-                 address, doctor_id,
+                 address, hospital,
                  specialty, registration_status='pending'):
         self.username = username
         self.first_name = first_name
@@ -48,7 +49,7 @@ class Doctor(UserMixin):
         self.phone_number = phone_number
         self.password = password  # Make sure to hash the password before storing it
         self.address = address
-        self.doctor_id = doctor_id
+        self.hospital = hospital
         self.specialty = specialty
         self.registration_status = registration_status
 
@@ -67,7 +68,7 @@ class Doctor(UserMixin):
                 phone_number=doctor_data['phone_number'],
                 password=doctor_data['password'],  # Make sure to hash the password before storing it
                 address=doctor_data['address'],
-                doctor_id=doctor_data['doctor_id'],
+                hospital=doctor_data['hospital'],
                 specialty=doctor_data['specialty']
             )
         return None
@@ -90,26 +91,30 @@ class Admin(UserMixin):
 
 
 class Appointment:
-    def __init__(self, patient_fullname, doctor_username, date, status='requested'):
-        self.patient_fullname = patient_fullname
-        self.doctor_username = doctor_username
+    def __init__(self, patient_id, doctor_id, date, time, status='requested'):
+        self.patient_id = patient_id
+        self.doctor_id = doctor_id
         self.date = date
+        self.time = time
         self.status = status
 
     @staticmethod
     def from_dict(appointment_data):
         return Appointment(
-            patient_fullname=appointment_data['patient_fullname'],
-            doctor_username=appointment_data['doctor_username'],
+            patient_id=appointment_data['patient_id'],
+            doctor_id=appointment_data['doctor_id'],
             date=appointment_data['date'],
+            time=appointment_data['time'],
             status=appointment_data.get('status', 'requested')
         )
 
     def to_dict(self):
         return {
-            'patient_fullname': self.patient_fullname,
-            'doctor_username': self.doctor_username,
+            'patient_id': self.patient_id,
+            'doctor_id': self.doctor_id,
             'date': self.date,
+            'time': self.time,
             'status': self.status
         }
+
 
