@@ -3,83 +3,356 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Doctor Registration</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-    }
+  <title>Healthcare Portal</title>
 
-    form {
-      max-width: 400px;
-      margin: 50px auto;
-      padding: 20px;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      box-sizing: border-box;
-    }
-
-    button {
-      background-color: #333;
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #555;
-    }
-  </style>
+  <!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
 
-  <form action="/doctor_registration" method="post">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
+  <!-- Main Wrapper -->
+	<div class="main-wrapper">
 
-    <label for="first_name">First Name:</label>
-    <input type="text" id="first_name" name="first_name" required>
+		<!-- Header -->
+		<header class="header header-custom header-fixed header-one">
+				<div class="container">
+					<nav class="navbar navbar-expand-lg header-nav">
+						<div class="navbar-header">
+							<a id="mobile_btn" href="javascript:void(0);">
+								<span class="bar-icon">
+									<span></span>
+									<span></span>
+									<span></span>
+								</span>
+							</a>
+							<a href="index.html" class="navbar-brand logo">
+								<img src="/static/img/logo.png" class="img-fluid" alt="Logo">
+							</a>
+						</div>
+						<div class="main-menu-wrapper">
+							<div class="menu-header">
+								<a href="index.html" class="menu-logo">
+									<img src="/static/img/logo.png" class="img-fluid" alt="Logo">
+								</a>
+								<a id="menu_close" class="menu-close" href="javascript:void(0);">
+									<i class="fas fa-times"></i>
+								</a>
+							</div>
+							<ul class="main-nav">
+							<li class="has-submenu megamenu">
+								<a href="javascript:void(0);">Home <i class="fas fa-chevron-down"></i></a>
 
-    <label for="last_name">Last Name:</label>
-    <input type="text" id="last_name" name="last_name" required>
+							</li>
+								<li class="has-submenu">
+									<a href="javascript:void(0);">Doctors <i class="fas fa-chevron-down"></i></a>
 
-    <label for="date_of_birth">Date of Birth:</label>
-    <input type="date" id="date_of_birth" name="date_of_birth" required>
+								</li>
+								<li class="has-submenu">
+									<a href="javascript:void(0);">Patients <i class="fas fa-chevron-down"></i></a>
 
-    <label for="phone_number">Phone Number:</label>
-    <input type="tel" id="phone_number" name="phone_number" required>
+								</li>
+								<li class="has-submenu">
+									<a href="javascript:void(0);">Pharmacy <i class="fas fa-chevron-down"></i></a>
+									<ul class="submenu">
+										<li><a href="pharmacy-index.html">Pharmacy</a></li>
+										<li><a href="pharmacy-details.html">Pharmacy Details</a></li>
+										<li><a href="pharmacy-search.html">Pharmacy Search</a></li>
+										<li><a href="product-all.html">Product</a></li>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
+										<li><a href="pharmacy-register.html">Pharmacy Register</a></li>
+									</ul>
+								</li>
 
-    <label for="address">Address:</label>
-    <input type="text" id="address" name="address" required>
+								<li class="has-submenu">
+									<a href="#">Blog <i class="fas fa-chevron-down"></i></a>
+									<ul class="submenu">
+										<li><a href="blog-list.html">Blog List</a></li>
+										<li><a href="blog-grid.html">Blog Grid</a></li>
+										<li><a href="blog-details.html">Blog Details</a></li>
+									</ul>
+								</li>
+								<li class="has-submenu">
+									<a href="#">Admin <i class="fas fa-chevron-down"></i></a>
+									<ul class="submenu">
+										<li><a href="/admin_login" target="_blank">Admin</a></li>
+										<li><a href="pharmacy/index.html" target="_blank">Pharmacy Admin</a></li>
+									</ul>
+								</li>
+								<li class="searchbar">
+									<a href="javascript:void(0);"><i class="feather-search"></i></a>
+									<div class="togglesearch">
+										<form action="search.html">
+											<div class="input-group">
+												<input type="text" class="form-control">
+												<button type="submit" class="btn">Search</button>
+											</div>
+										</form>
+									</div>
+								</li>
+								<li class="login-link"><a href="login.html">Login / Signup</a></li>
+								<li class="register-btn">
+									<a href="/patient_registration" class="btn reg-btn"><i class="feather-user"></i>Register</a>
+								</li>
+								<li class="register-btn">
+									<a href="/patient_login" class="btn btn-primary log-btn"><i class="feather-lock"></i>Login</a>
+								</li>
+							</ul>
+						</div>
+					</nav>
+				</div>
+			</header>
+		<!-- /Header -->
 
-    <label for="doctor_id">Doctor ID:</label>
-    <input type="text" id="doctor_id" name="doctor_id" required>
+		<!-- Page Content -->
+			<div class="content top-space">
+				<div class="container-fluid">
 
-    <label for="specialty">Specialty:</label>
-    <input type="text" id="specialty" name="specialty" required>
+					<div class="row">
+						<div class="col-md-8 offset-md-2">
 
-    <button type="submit">Register</button>
-  </form>
+							<!-- Register Content -->
+							<div class="account-content">
+								<div class="row align-items-center justify-content-center">
+									<div class="col-md-7 col-lg-6 login-left">
+										<img src="/static/img/logo.png" class="img-fluid" alt="">
+									</div>
+									<div class="col-md-12 col-lg-6 login-right">
+										<div class="login-header">
+											<h3>Doctor Register <a href="/patient_registration">Are you a Patient?</a></h3>
+										</div>
+
+										<!-- Register Form -->
+										<form action="/doctor_registration" method="post">
+											<div class="row">
+												<div class="col-md-6">
+													<div class="mb-3 form-focus">
+														<input type="text" class="form-control floating" id="username" name="username" required>
+														<label class="focus-label" for="username">Username</label>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="mb-3 form-focus">
+														<input type="text" class="form-control floating" id="first_name" name="first_name" required>
+														<label class="focus-label" for="first_name">First Name</label>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="mb-3 form-focus">
+														<input type="text" class="form-control floating" id="last_name" name="last_name" required>
+														<label class="focus-label" for="last_name">Last Name</label>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="mb-3 form-focus">
+														<input type="date" class="form-control floating" id="date_of_birth" name="date_of_birth" required>
+														<label class="focus-label" for="date_of_birth">Date of Birth</label>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="mb-3 form-focus">
+														<input type="tel" class="form-control floating" id="phone_number" name="phone_number" required>
+														<label class="focus-label" for="phone_number">Phone Number</label>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="mb-3 form-focus">
+														<input type="password" class="form-control floating" id="password" name="password1" required>
+														<label class="focus-label" for="password">Create Password</label>
+														<div class="invalid-feedback">Please enter a password.</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="mb-3 form-focus">
+														<input type="password" class="form-control floating" id="confirm_password" name="password" required>
+														<label class="focus-label" for="confirm_password">Confirm Password</label>
+														<div class="invalid-feedback">Please confirm your password.</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="mb-3 form-focus">
+														<input type="text" class="form-control floating" id="address" name="address" required>
+														<label class="focus-label" for="address">Address</label>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="mb-3 form-focus">
+														<input type="text" class="form-control floating" id="hospital" name="hospital" required>
+														<label class="focus-label" for="hospital">Hospital</label>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="mb-3 form-focus">
+														<input type="text" class="form-control floating" id="specialty" name="specialty" required>
+														<label class="focus-label" for="specialty">Specialty</label>
+													</div>
+												</div>
+											</div>
+											<div class="text-end">
+												<a class="forgot-link" href="/doctor_login">Already have an account?</a>
+											</div>
+
+											<button class="btn btn-primary w-100 btn-lg login-btn" type="submit">Register</button>
+										</form>
+
+
+
+										<!-- /Register Form -->
+
+									</div>
+								</div>
+							</div>
+							<!-- /Register Content -->
+
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+			<!-- /Page Content -->
+
+		<!-- Footer -->
+			<footer class="footer footer-one">
+				<div class="footer-top">
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-3 col-md-4">
+								<div class="footer-widget footer-about">
+									<div class="footer-logo">
+										<a href="index.html"><img src="assets/img/logo.png" alt="logo"></a>
+									</div>
+									<div class="footer-about-content">
+										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="row">
+									<div class="col-lg-3 col-md-4">
+										<div class="footer-widget footer-menu">
+											<h2 class="footer-title">For Patients</h2>
+											<ul>
+												<li><a href="search.html">Search for Doctors</a></li>
+												<li><a href="login.html">Login</a></li>
+												<li><a href="register.html">Register</a></li>
+											</ul>
+										</div>
+									</div>
+									<div class="col-lg-3 col-md-4">
+										<div class="footer-widget footer-menu">
+											<h2 class="footer-title">For Doctors</h2>
+											<ul>
+												<li><a href="appointments.html">Appointments</a></li>
+												<li><a href="chat.html">Chat</a></li>
+												<li><a href="login.html">Login</a></li>
+											</ul>
+										</div>
+									</div>
+									<div class="col-lg-6 col-md-4">
+										<div class="footer-widget footer-contact">
+											<h2 class="footer-title">Contact Us</h2>
+											<div class="footer-contact-info">
+												<div class="footer-address">
+													<p><i class="feather-map-pin"></i> 3556 Beech Street, Coventry</p>
+												</div>
+												<div class="footer-address">
+													<p><i class="feather-phone-call"></i> +44 315 369 5943</p>
+												</div>
+												<div class="footer-address mb-0">
+													<p><i class="feather-mail"></i> ola</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-3 col-md-7">
+								<div class="footer-widget">
+									<h2 class="footer-title">Join Our Newsletter</h2>
+									<div class="subscribe-form">
+										<form action="#">
+		                                    <input type="email" class="form-control" placeholder="Enter Email">
+		                                    <button type="submit" class="btn">Submit</button>
+	                                    </form>
+	                                </div>
+									<div class="social-icon">
+									<ul>
+										<li>
+											<a href="javascript:void(0);"><i class="fab fa-facebook"></i></a>
+										</li>
+										<li>
+											<a href="javascript:void(0);"><i class="fab fa-instagram"></i></a>
+										</li>
+										<li>
+											<a href="javascript:void(0);"><i class="fab fa-twitter"></i></a>
+										</li>
+										<li>
+											<a href="javascript:void(0);"><i class="fab fa-linkedin-in"></i></a>
+										</li>
+									</ul>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="footer-bottom">
+					<div class="container">
+						<!-- Copyright -->
+						<div class="copyright">
+							<div class="row">
+								<div class="col-md-6 col-lg-6">
+									<div class="copyright-text">
+										<p class="mb-0"> Copyright © 2024 <a href="" target="_blank">STEP-CARE.</a> All Rights Reserved</p>
+									</div>
+								</div>
+								<div class="col-md-6 col-lg-6">
+
+									<!-- Copyright Menu -->
+									<div class="copyright-menu">
+										<ul class="policy-menu">
+											<li><a href="privacy-policy.html">Privacy Policy</a></li>
+											<li><a href="terms-condition.html">Terms and Conditions</a></li>
+										</ul>
+									</div>
+									<!-- /Copyright Menu -->
+
+								</div>
+							</div>
+						</div>
+						<!-- /Copyright -->
+					</div>
+				</div>
+			</footer>
+			<!-- /Footer -->
+
+
+
+	</div>
+	<!-- /Main Wrapper -->
 
 </body>
 </html>
+
+<script>
+// JavaScript for Bootstrap form validation
+(function () {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
+</script>

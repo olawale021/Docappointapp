@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthcare Portal</title>
+
+  <!-- Bootstrap CSS -->
+	<script src="https://kit.fontawesome.com/ad92737229.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+  <!-- Main Wrapper -->
+	<div class="main-wrapper">
+
+		<!-- Header -->
+		<header class="header header-custom header-fixed header-one">
+				<div class="container">
+					<nav class="navbar navbar-expand-lg header-nav">
+						<div class="navbar-header">
+							<a id="mobile_btn" href="javascript:void(0);">
+								<span class="bar-icon">
+									<span></span>
+									<span></span>
+									<span></span>
+								</span>
+							</a>
+							<a href="index.html" class="navbar-brand logo">
+								<img src="/static/img/logo.png" class="img-fluid" alt="Logo">
+							</a>
+						</div>
+						<div class="main-menu-wrapper">
+							<div class="menu-header">
+								<a href="index.html" class="menu-logo">
+									<img src="/static/img/logo.png" class="img-fluid" alt="Logo">
+								</a>
+								<a id="menu_close" class="menu-close" href="javascript:void(0);">
+									<i class="fas fa-times"></i>
+								</a>
+							</div>
+							<ul class="main-nav">
+							<li class="has-submenu megamenu">
+								<a href="javascript:void(0);">Home <i class="fas fa-chevron-down"></i></a>
+
+							</li>
+								<li class="has-submenu">
+									<a href="javascript:void(0);">Doctors <i class="fas fa-chevron-down"></i></a>
+
+								</li>
+								<li class="has-submenu">
+									<a href="javascript:void(0);">Patients <i class="fas fa-chevron-down"></i></a>
+
+								</li>
+								<li class="has-submenu">
+									<a href="javascript:void(0);">Pharmacy <i class="fas fa-chevron-down"></i></a>
+									<ul class="submenu">
+										<li><a href="pharmacy-index.html">Pharmacy</a></li>
+										<li><a href="pharmacy-details.html">Pharmacy Details</a></li>
+										<li><a href="pharmacy-search.html">Pharmacy Search</a></li>
+										<li><a href="product-all.html">Product</a></li>
+
+										<li><a href="pharmacy-register.html">Pharmacy Register</a></li>
+									</ul>
+								</li>
+
+								<li class="has-submenu">
+									<a href="#">Blog <i class="fas fa-chevron-down"></i></a>
+									<ul class="submenu">
+										<li><a href="blog-list.html">Blog List</a></li>
+										<li><a href="blog-grid.html">Blog Grid</a></li>
+										<li><a href="blog-details.html">Blog Details</a></li>
+									</ul>
+								</li>
+								<li class="has-submenu">
+									<a href="#">Admin <i class="fas fa-chevron-down"></i></a>
+									<ul class="submenu">
+										<li><a href="/admin_login" target="_blank">Admin</a></li>
+										<li><a href="pharmacy/index.html" target="_blank">Pharmacy Admin</a></li>
+									</ul>
+								</li>
+								<li class="searchbar">
+									<a href="javascript:void(0);"><i class="feather-search"></i></a>
+									<div class="togglesearch">
+										<form action="search.html">
+											<div class="input-group">
+												<input type="text" class="form-control">
+												<button type="submit" class="btn">Search</button>
+											</div>
+										</form>
+									</div>
+								</li>
+
+							</ul>
+						</div>
+					</nav>
+				</div>
+		</header>
+		<!-- /Header -->
+
+
+		<!-- Page Content -->
+			<div class="doctor-content">
+				<div class="container">
+
+					<!-- Booking Success -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="back-link">
+								<a href="payment.html"><i class="fa-solid fa-arrow-left-long"></i> Back</a>
+							</div>
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-lg-6 col-md-8">
+							<div class="success-content">
+								<div class="success-icon">
+									<i class="fas fa-circle-check"></i>
+								</div>
+								<h4>Your Appointment Booked Successfully</h4>
+							</div>
+							<div class="card booking-card">
+								<div class="card-body booking-card-body booking-list-body">
+									<div class="booking-doctor-left booking-success-info">
+										<div class="booking-doctor-img">
+											<a href="javascript:void(0);">
+												<img src="" alt="{{ doctor_info.username }}" class="img-fluid">
+											</a>
+										</div>
+										<div class="booking-doctor-info">
+											<h4><a href="javascript:void(0);">{{ doctor_info.username }}</a></h4>
+											<p>{{ doctor_info.specialty }}</p>
+											<div class="booking-doctor-location">
+												<p><i class="feather-map-pin"></i> {{ doctor_info.hospital }}</p>
+											</div>
+										</div>
+									</div>
+									<div class="booking-list">
+										<div class="booking-date-list consultation-date-list">
+											<ul>
+												<li>Booking Date: <span>{{ appointment_date }}</span></li>
+												<li>Booking Time: <span>{{ appointment_time }}</span></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="success-btn">
+								<a href="javascript:void(0);" class="btn btn-light">
+									Appointment
+								</a>
+							</div>
+							<div class="success-dashboard-link">
+								<a href="/patient_dashboard">
+									<i class="fa-solid fa-arrow-left-long"></i> Back to Dashboard
+								</a>
+							</div>
+						</div>
+					</div>
+
+					<!-- /Booking Success -->
+
+				</div>
+			</div>
+			<!-- /Page Content -->
+
+
+
+
+
+		<!-- Footer -->
+			<footer class="footer footer-one">
+				<div class="footer-top">
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-3 col-md-4">
+								<div class="footer-widget footer-about">
+									<div class="footer-logo">
+										<a href="index.html"><img src="assets/img/logo.png" alt="logo"></a>
+									</div>
+									<div class="footer-about-content">
+										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="row">
+									<div class="col-lg-3 col-md-4">
+										<div class="footer-widget footer-menu">
+											<h2 class="footer-title">For Patients</h2>
+											<ul>
+												<li><a href="search.html">Search for Doctors</a></li>
+												<li><a href="login.html">Login</a></li>
+												<li><a href="register.html">Register</a></li>
+											</ul>
+										</div>
+									</div>
+									<div class="col-lg-3 col-md-4">
+										<div class="footer-widget footer-menu">
+											<h2 class="footer-title">For Doctors</h2>
+											<ul>
+												<li><a href="appointments.html">Appointments</a></li>
+												<li><a href="chat.html">Chat</a></li>
+												<li><a href="login.html">Login</a></li>
+											</ul>
+										</div>
+									</div>
+									<div class="col-lg-6 col-md-4">
+										<div class="footer-widget footer-contact">
+											<h2 class="footer-title">Contact Us</h2>
+											<div class="footer-contact-info">
+												<div class="footer-address">
+													<p><i class="feather-map-pin"></i> 3556 Beech Street, Coventry</p>
+												</div>
+												<div class="footer-address">
+													<p><i class="feather-phone-call"></i> +44 315 369 5943</p>
+												</div>
+												<div class="footer-address mb-0">
+													<p><i class="feather-mail"></i> ola</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-3 col-md-7">
+								<div class="footer-widget">
+									<h2 class="footer-title">Join Our Newsletter</h2>
+									<div class="subscribe-form">
+										<form action="#">
+		                                    <input type="email" class="form-control" placeholder="Enter Email">
+		                                    <button type="submit" class="btn">Submit</button>
+	                                    </form>
+	                                </div>
+									<div class="social-icon">
+									<ul>
+										<li>
+											<a href="javascript:void(0);"><i class="fab fa-facebook"></i></a>
+										</li>
+										<li>
+											<a href="javascript:void(0);"><i class="fab fa-instagram"></i></a>
+										</li>
+										<li>
+											<a href="javascript:void(0);"><i class="fab fa-twitter"></i></a>
+										</li>
+										<li>
+											<a href="javascript:void(0);"><i class="fab fa-linkedin-in"></i></a>
+										</li>
+									</ul>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="footer-bottom">
+					<div class="container">
+						<!-- Copyright -->
+						<div class="copyright">
+							<div class="row">
+								<div class="col-md-6 col-lg-6">
+									<div class="copyright-text">
+										<p class="mb-0"> Copyright © 2024 <a href="" target="_blank">STEP-CARE.</a> All Rights Reserved</p>
+									</div>
+								</div>
+								<div class="col-md-6 col-lg-6">
+
+									<!-- Copyright Menu -->
+									<div class="copyright-menu">
+										<ul class="policy-menu">
+											<li><a href="privacy-policy.html">Privacy Policy</a></li>
+											<li><a href="terms-condition.html">Terms and Conditions</a></li>
+										</ul>
+									</div>
+									<!-- /Copyright Menu -->
+
+								</div>
+							</div>
+						</div>
+						<!-- /Copyright -->
+					</div>
+				</div>
+			</footer>
+			<!-- /Footer -->
+	</div>
+	<!-- /Main Wrapper -->
+
+</body>
+</html>
+
