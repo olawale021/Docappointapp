@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://kit.fontawesome.com/ad92737229.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/css/admin.css">
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body>
+
+		<!-- Main Wrapper -->
+        <div class="main-wrapper">
+
+			<!-- Header -->
+            <div class="header">
+
+				<!-- Logo -->
+                <div class="header-left">
+                    <a href="index.html" class="logo">
+						<img src="/static/img/logo.png" alt="Logo">
+					</a>
+					<a href="index.html" class="logo logo-small">
+						<img src="assets/img/logo-small.png" alt="Logo" width="30" height="30">
+					</a>
+                </div>
+				<!-- /Logo -->
+
+				<a href="javascript:void(0);" id="toggle_btn">
+					<i class="fe fe-text-align-left"></i>
+				</a>
+
+				<div class="top-nav-search">
+					<form>
+						<input type="text" class="form-control" placeholder="Search here">
+						<button class="btn" type="submit"><i class="fa fa-search"></i></button>
+					</form>
+				</div>
+
+				<!-- Mobile Menu Toggle -->
+				<a class="mobile_btn" id="mobile_btn">
+					<i class="fa fa-bars"></i>
+				</a>
+				<!-- /Mobile Menu Toggle -->
+
+				<!-- Header Right Menu -->
+				<ul class="nav user-menu">
+
+					<!-- User Menu -->
+					<li class="nav-item dropdown has-arrow">
+						<a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+							<span class="user-img"><img class="rounded-circle" src="assets/img/profiles/avatar-01.jpg" width="31" alt="Olawale"></span>
+						</a>
+						<div class="dropdown-menu">
+							<div class="user-header">
+								<div class="user-text">
+									<h6>Olawale</h6>
+									<p class="text-muted mb-0">Administrator</p>
+								</div>
+							</div>
+							<a class="dropdown-item" href="profile.html">My Profile</a>
+							<a class="dropdown-item" href="settings.html">Settings</a>
+							<a class="dropdown-item" href="/admin_logout">Logout</a>
+						</div>
+					</li>
+					<!-- /User Menu -->
+
+				</ul>
+				<!-- /Header Right Menu -->
+
+            </div>
+			<!-- /Header -->
+
+			<!-- Sidebar -->
+            <div class="sidebar" id="sidebar">
+                <div class="sidebar-inner slimscroll">
+					<div id="sidebar-menu" class="sidebar-menu">
+						<ul>
+							<li class="menu-title">
+								<span>Main</span>
+							</li>
+							<li>
+								<a href="/admin_dashboard"><i data-feather="home"></i> <span>Dashboard</span></a>
+							</li>
+							<li class="active">
+								<a href="/admin_appointments"><i data-feather="layout"></i> <span>Appointments</span></a>
+							</li>
+							<li>
+								<a href="/admin/doctors"><i data-feather="user-plus"></i> <span>Doctors</span></a>
+							</li>
+							<li>
+								<a href="/admin/patients"><i data-feather="users"></i> <span>Patients</span></a>
+							</li>
+							<li>
+								<a href="/settings"><i data-feather="settings"></i> <span>Settings</span></a>
+							</li>
+							<li>
+								<a href="/profile"><i data-feather="user"></i> <span>Profile</span></a>
+							</li>
+						</ul>
+
+					</div>
+                </div>
+            </div>
+			<!-- /Sidebar -->
+
+			<!-- Page Wrapper -->
+            <div class="page-wrapper">
+
+                <div class="content container-fluid">
+
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col-sm-12">
+								<h3 class="page-title">Appointments</h3>
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+									<li class="breadcrumb-item active">Appointments</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /Page Header -->
+							<div class="row">
+								<div class="col-md-12">
+
+									<!-- Recent Orders -->
+									<div class="card">
+										<div class="card-body">
+											<div class="table-responsive">
+												<table class="datatable table table-hover table-center mb-0">
+													<thead>
+														<tr>
+															<th>Doctor Name</th>
+															<th>Patient Name</th>
+															<th>Appointment Date</th>
+															<th>Appointment Time</th>
+															<th>Status</th>
+															<th>Action</th>
+														</tr>
+													</thead>
+													<tbody>
+													{% for appointment in appointments %}
+													<tr>
+														<td>
+															<h2 class="table-avatar">
+
+																<a href="">{{ appointment.doctor_info.username }}</a>
+															</h2>
+														</td>
+														<td>
+															<h2 class="table-avatar">
+																<a href="">{{ appointment.patient_info.first_name }} {{ appointment.patient_info.last_name }}</a>
+															</h2>
+														</td>
+														<td>{{ appointment.date }}</td>
+														<td>{{ appointment.time }}</td>
+														<td>
+															<span class="badge badge-pill {{ 'badge-success' if appointment.status == 'approved' else 'badge-warning' }}">{{ appointment.status }}</span>
+														</td>
+														<td>
+															<div class="status-toggle">
+																<input type="checkbox" id="status_{{ loop.index }}" data-appointment-id="{{ appointment._id }}" class="check" {% if appointment.status == 'approved' %}checked{% endif %} >
+																<label for="status_{{ loop.index }}" class="checktoggle">checkbox</label>
+															</div>
+															<a href="#" onclick="event.preventDefault(); document.getElementById('delete-appointments-form-{{ appointment._id }}').submit();" title="Delete">
+																<i class="fas fa-trash"></i>
+															</a>
+															<form id="delete-appointments-form-{{ appointment._id }}" action="/admin/appointments/delete/{{ appointment._id }}" method="POST" style="display: none;">
+																<input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+																<input type="hidden" name="appointments_id" value="{{ appointment._id }}">
+															</form>
+														</td>
+													</tr>
+													{% endfor %}
+												</tbody>
+
+
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /Recent Orders -->
+						</div>
+					</div>
+				</div>
+
+
+
+			<script>
+						document.addEventListener("DOMContentLoaded", function() {
+							// Highlight the active sidebar link
+							let currentLocation = location.href;
+							let menuItem = document.querySelectorAll('.sidebar-menu a');
+							let menuLength = menuItem.length;
+							for (let i = 0; i < menuLength; i++) {
+								if (menuItem[i].href === currentLocation) {
+									menuItem[i].className = "active";
+								}
+							}
+						});
+
+
+						var csrf_token = "{{ csrf_token }}";
+						document.addEventListener('DOMContentLoaded', function() {
+							// Adding event listeners to all checkboxes
+							document.querySelectorAll('.status-toggle .check').forEach(function(checkBox) {
+								checkBox.addEventListener('change', function() {
+									const appointmentId = this.getAttribute('data-appointment-id');
+									const newStatus = this.checked ? 'approved' : 'requested';
+
+									// AJAX request to update status
+									fetch('/admin/appointments/update_status', { // Update this URL to your route
+										method: 'POST',
+										headers: {
+											'Content-Type': 'application/json',
+											'X-CSRF-Token': '{{ csrf_token }}' // Add CSRF token here, adjust for your backend
+										},
+										body: JSON.stringify({
+											appointment_id: appointmentId,
+											new_status: newStatus
+										})
+
+									})
+									.then(response => {
+										if (!response.ok) {
+											throw new Error('Network response was not ok');
+										}
+										return response.json();
+									})
+									.then(data => {
+										console.log(data.message); // Success message from server
+										location.reload();
+									})
+									.catch((error) => {
+										console.error('Error:', error);
+									});
+								});
+							});
+						});
+
+			</script>
+
+			<script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+        });
+    </script>
+
+			<script>
+				document.addEventListener('DOMContentLoaded', function() {
+					  var mobileBtn = document.getElementById('mobile_btn');
+					  var menu = document.querySelector('.main-menu-wrapper'); // Adjust this selector based on your HTML structure
+
+					  mobileBtn.addEventListener('click', function() {
+						menu.classList.toggle('show'); // Toggle a class that controls visibility
+					  });
+					});
+			</script>
+
+			<!-- Bootstrap 5 JS for Bootstrap 5 Users -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+		<!-- Bootstrap JS -->
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+
+    </body>
+</html>

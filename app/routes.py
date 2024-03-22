@@ -56,7 +56,7 @@ def patient_registration():
                 'registration_status': 'pending'
             })
 
-            flash("Patient registration successful", "success",)
+            flash("Patient registration successful", "success", )
             return render_template('/patient/registration_pending.html', csrf_token=generate_csrf())
 
         except KeyError as e:
@@ -137,8 +137,6 @@ def register_admin():
 
     except KeyError as e:
         return jsonify({"error": f"Missing key: {str(e)}"}), 400
-
-
 
 
 from flask import jsonify
@@ -350,7 +348,7 @@ def booking_success():
 
 @app.route('/registration_pending')
 def registration_pending():
-    return render_template('/patient/registration_pending.html',  csrf_token=generate_csrf())
+    return render_template('/patient/registration_pending.html', csrf_token=generate_csrf())
 
 
 @app.route('/patient_dashboard', methods=['GET'])
@@ -445,7 +443,7 @@ def doctor_dashboard():
                            appointment_requests=appointment_requests, fixed_appointments=fixed_appointments)
 
 
-@app.route('/approve_appointment/<appointment_id>', methods=['GET','POST'])
+@app.route('/approve_appointment/<appointment_id>', methods=['GET', 'POST'])
 def approve_appointment(appointment_id):
     # Convert appointment_id to ObjectId
     appointment_id = ObjectId(appointment_id)
@@ -482,6 +480,15 @@ def delete_appointment(appointment_id):
 
 @app.route('/search_doctor')
 def search_doctor():
+    address = request.args.get('address')
+    name = request.args.get('name')
+
+    query = {}
+    if address:
+        query["address"] = address  # based on how location is in database
+    if name:
+        query["$text"] = {"$search": name}
+
     doctors_collection = mongo.db.doctors
 
     # Fetch all doctors from the database
@@ -527,7 +534,6 @@ def book_appointment():
 
 @app.route('/admin_appointments')
 def admin_appointments():
-
     try:
         appointments = mongo.db.appointments.find()
         # Optionally, enrich appointments with patient and doctor info
@@ -540,7 +546,8 @@ def admin_appointments():
                 # Handle missing patient_id or doctor_id
                 continue
             appointments_list.append(appointment)
-        return render_template('/admin/admin_appointments.html', appointments=appointments_list, csrf_token=generate_csrf())
+        return render_template('/admin/admin_appointments.html', appointments=appointments_list,
+                               csrf_token=generate_csrf())
     except PyMongoError as e:
         flash(f"Database error: {e}", 'error')
         return redirect(url_for('admin_dashboard', csrf_token=generate_csrf()))
@@ -689,5 +696,3 @@ def admin_logout():
         return redirect(url_for('home'))
     else:
         return redirect(url_for('home'))
-
-

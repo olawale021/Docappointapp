@@ -94,7 +94,7 @@
 								{% if 'patient_id' in session %}
 									<!-- User is logged in -->
 									<li class="register-btn">
-										<a href="/logout" class="btn log-btn">Logout</a>
+										<a href="/patient_logout" class="btn log-btn">Logout</a>
 									</li>
 								{% else %}
 									<!-- User is not logged in -->
@@ -260,76 +260,6 @@
 											</div>
 											<!-- /Filter Grid -->
 
-											<!-- Filter Grid -->
-											<div class="filter-grid">
-												<h4>
-													<a href="#collapsefive" data-bs-toggle="collapse">Experience</a>
-												</h4>
-												<div id="collapsefive" class=" collapse show">
-													<div class="filter-collapse">
-														<ul>
-															<li>
-																<label class="custom_check d-inline-flex">
-																	<input type="checkbox" name="experience">
-																	<span class="checkmark"></span>
-																	1-5 Years
-																</label>
-															</li>
-															<li>
-																<label class="custom_check d-inline-flex">
-																	<input type="checkbox" name="experience">
-																	<span class="checkmark"></span>
-																	5+ Years
-																</label>
-															</li>
-														</ul>
-													</div>
-												</div>
-											</div>
-											<!-- /Filter Grid -->
-
-
-											<!-- Filter Grid -->
-											<div class="filter-grid">
-												<h4>
-													<a href="#collapseeight" data-bs-toggle="collapse">Languages</a>
-												</h4>
-												<div id="collapseeight" class="collapse show">
-													<div class="filter-collapse">
-														<ul>
-															<li>
-																<label class="custom_check d-inline-flex">
-																	<input type="checkbox" name="language">
-																	<span class="checkmark"></span>
-																	English
-																</label>
-															</li>
-															<li>
-																<label class="custom_check d-inline-flex">
-																	<input type="checkbox" name="language">
-																	<span class="checkmark"></span>
-																	French
-																</label>
-															</li>
-															<li>
-																<label class="custom_check d-inline-flex">
-																	<input type="checkbox" name="language">
-																	<span class="checkmark"></span>
-																	Spanish
-																</label>
-															</li>
-															<li>
-																<label class="custom_check d-inline-flex">
-																	<input type="checkbox" name="language">
-																	<span class="checkmark"></span>
-																	German
-																</label>
-															</li>
-														</ul>
-													</div>
-												</div>
-											</div>
-											<!-- /Filter Grid -->
 
 											<!-- Filter Btn -->
 											<div class="filter-btn apply-btn">
@@ -423,14 +353,11 @@
 															<a href="doctor-profile.html">{{ doctor.username }}</a>
 															<i class="fas fa-circle-check"></i>
 														</h4>
-														<p class="doc-speciality">{{ doctor.speciality }}</p>
+														<p class="doc-speciality">{{ doctor.specialty }}</p>
 														<div class="clinic-details">
 															<p class="doc-location">
 																<i class="feather-map-pin"></i>
 																<span>{{ doctor.hospital }}</span>
-															</p>
-															<p class="doc-location">
-																<i class="feather-award"></i> <span></span> of Experience
 															</p>
 														</div>
 
