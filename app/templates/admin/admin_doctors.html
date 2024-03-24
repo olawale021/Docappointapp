@@ -152,7 +152,7 @@
 															<td>{{ doctor.specialty }}</td>
 															<td>{{ doctor.hospital }}</td>
 															<td>
-																<span class="badge badge-pill {% if doctor.registration_status == 'Approved' %}badge-success{% elif doctor.registration_status == 'Rejected' %}badge-danger{% else %}badge-warning{% endif %}">
+																<span class="badge badge-pill {% if doctor.registration_status == 'approved' %}badge-success{% elif doctor.registration_status == 'rejected' %}badge-danger{% else %}badge-warning{% endif %}">
 																	{{ doctor.registration_status | capitalize }}
 																</span>
 															</td>
@@ -162,8 +162,8 @@
 																		<form action="/admin/doctors/update_status/{{ doctor._id }}" method="post" style="margin-bottom: 0;">
 																			<input type="hidden" name="doctor_id" value="{{ doctor._id }}">
 																			<input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-																			<button type="submit" name="status" value="Approved" class="btn btn-success btn-sm">Approve</button>
-																			<button type="submit" name="status" value="Rejected" class="btn btn-danger btn-sm">Reject</button>
+																			<button type="submit" name="status" value="approved" class="btn btn-success btn-sm">Approve</button>
+																			<button type="submit" name="status" value="rejected" class="btn btn-danger btn-sm">Reject</button>
 																		</form>
 																	{% endif %}
 

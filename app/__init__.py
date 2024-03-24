@@ -21,10 +21,10 @@ bootstrap = Bootstrap(app)
 
 
 @login_manager.user_loader
-def load_user(username):
+def load_user(_id):
     from app.models import Patient, Doctor, Admin  # Import here to avoid circular import
     # Assuming you have a User model with a method like User.get
-    return Patient.get(username) or Doctor.get(username) or Admin.get(username)
+    return Patient.get(_id) or Doctor.get(_id) or Admin.get(_id)
 
 
 from app import routes
