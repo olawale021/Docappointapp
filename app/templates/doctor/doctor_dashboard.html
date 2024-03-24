@@ -130,7 +130,7 @@
 								<div class="widget-profile pro-widget-content">
 									<div class="profile-info-widget">
 										<a href="#" class="booking-doc-img">
-											<img src="assets/img/doctors/doctor-thumb-02.jpg" alt="User Image">
+											<img src="{{doctor.image_url}}" alt="User Image">
 										</a>
 										<div class="profile-det-info">
 											<h3>{{ doctor.username }}</h3>
@@ -179,8 +179,8 @@
 												</a>
 											</li>
 
-											<li>
-												<a href="doctor-profile-settings.html">
+											<li >
+												<a href="/doctor_profile_settings">
 													<i class="fas fa-user-cog"></i>
 													<span>Profile Settings</span>
 												</a>
@@ -343,51 +343,51 @@
 
 									<!-- Today Appointment Tab -->
 									<div class="tab-pane show active" id="requested-appointments">
-    <div class="card card-table mb-0">
-        <div class="card-body">
-            <h3>Appointment Requests</h3>
-            <div class="table-responsive">
-                <table class="table table-hover table-center mb-0">
-                    <thead>
-                        <tr>
-                            <th>Patient Name</th>
-                            <th>Appt Date</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-						{% for appointment in appointment_requests %}
-						<tr>
-							<td>
-								<h2 class="table-avatar">
-									<a href="patient-profile.html" class="avatar avatar-sm me-2">
-										<img class="avatar-img rounded-circle" src="assets/img/patients/patient.jpg" alt="User Image">
-									</a>
-									<a href="">{{ appointment.patient_name }} <span>{{ appointment.patient_name }}</span></a>
-								</h2>
-							</td>
-							<td>{{ appointment.date }} <span class="d-block text-info">{{ appointment.time }}</span></td>
-							<td>
-								<div class="table-action">
-									<a href="javascript:void(0);" class="btn btn-sm bg-info-light">
-										<i class="far fa-eye"></i> View
-									</a>
-									<a href="/approve_appointment/{{ appointment._id }}" class="btn btn-sm bg-success-light">
-										<i class="fas fa-check"></i> Accept
-									</a>
-									<a href="/cancel_appointment/{{ appointment._id }}" class="btn btn-sm bg-danger-light">
-										<i class="fas fa-times"></i> Cancel
-									</a>
-								</div>
-							</td>
-						</tr>
-						{% endfor %}
-					</tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
+										<div class="card card-table mb-0">
+											<div class="card-body">
+												<h3>Appointment Requests</h3>
+												<div class="table-responsive">
+													<table class="table table-hover table-center mb-0">
+														<thead>
+															<tr>
+																<th>Patient Name</th>
+																<th>Appt Date</th>
+																<th>Action</th>
+															</tr>
+														</thead>
+														<tbody>
+															{% for appointment in appointment_requests %}
+															<tr>
+																<td>
+																	<h2 class="table-avatar">
+																		<a href="patient-profile.html" class="avatar avatar-sm me-2">
+																			<img class="avatar-img rounded-circle" src="assets/img/patients/patient.jpg" alt="User Image">
+																		</a>
+																		<a href="">{{ appointment.patient_name }} <span>{{ appointment.patient_name }}</span></a>
+																	</h2>
+																</td>
+																<td>{{ appointment.date }} <span class="d-block text-info">{{ appointment.time }}</span></td>
+																<td>
+																	<div class="table-action">
+																		<a href="javascript:void(0);" class="btn btn-sm bg-info-light">
+																			<i class="far fa-eye"></i> View
+																		</a>
+																		<a href="/approve_appointment/{{ appointment._id }}" class="btn btn-sm bg-success-light">
+																			<i class="fas fa-check"></i> Accept
+																		</a>
+																		<a href="/cancel_appointment/{{ appointment._id }}" class="btn btn-sm bg-danger-light">
+																			<i class="fas fa-times"></i> Cancel
+																		</a>
+																	</div>
+																</td>
+															</tr>
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
 										<!-- /Today Appointment Tab -->
 							   </div>
 							</div>

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthcare Portal</title>
+
+  <!-- Bootstrap CSS -->
+	<script src="https://kit.fontawesome.com/ad92737229.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+  <!-- Main Wrapper -->
+	<div class="main-wrapper">
+
+		<!-- Header -->
+		<header class="header header-custom header-fixed header-one">
+				<div class="container">
+					<nav class="navbar navbar-expand-lg header-nav">
+						<div class="navbar-header">
+							<a id="mobile_btn" href="javascript:void(0);">
+								<span class="bar-icon">
+									<span></span>
+									<span></span>
+									<span></span>
+								</span>
+							</a>
+							<a href="index.html" class="navbar-brand logo">
+								<img src="/static/img/logo.png" class="img-fluid" alt="Logo">
+							</a>
+						</div>
+						<div class="main-menu-wrapper">
+							<div class="menu-header">
+								<a href="/" class="menu-logo">
+									<img src="/static/img/logo.png" class="img-fluid" alt="Logo">
+								</a>
+								<a id="menu_close" class="menu-close" href="javascript:void(0);">
+									<i class="fas fa-times"></i>
+								</a>
+							</div>
+							<ul class="main-nav">
+							<li class="has-submenu megamenu">
+								<a href="/">Home <i class="fas fa-chevron-down"></i></a>
+
+							</li>
+								<li class="has-submenu">
+									<a href="/doctor_dashboard">Doctors <i class="fas fa-chevron-down"></i></a>
+
+								</li>
+								<li class="has-submenu">
+									<a href="/patient_dashboard">Patients <i class="fas fa-chevron-down"></i></a>
+
+								</li>
+								<li class="has-submenu">
+									<a href="javascript:void(0);">Pharmacy <i class="fas fa-chevron-down"></i></a>
+									<ul class="submenu">
+										<li><a href="pharmacy-index.html">Pharmacy</a></li>
+										<li><a href="pharmacy-details.html">Pharmacy Details</a></li>
+										<li><a href="pharmacy-search.html">Pharmacy Search</a></li>
+										<li><a href="product-all.html">Product</a></li>
+
+										<li><a href="pharmacy-register.html">Pharmacy Register</a></li>
+									</ul>
+								</li>
+
+								<li class="has-submenu">
+									<a href="#">Blog <i class="fas fa-chevron-down"></i></a>
+									<ul class="submenu">
+										<li><a href="blog-list.html">Blog List</a></li>
+										<li><a href="blog-grid.html">Blog Grid</a></li>
+										<li><a href="blog-details.html">Blog Details</a></li>
+									</ul>
+								</li>
+								<li class="has-submenu">
+									<a href="#">Admin <i class="fas fa-chevron-down"></i></a>
+									<ul class="submenu">
+										<li><a href="/admin_login" target="_blank">Admin</a></li>
+										<li><a href="" target="_blank">Pharmacy Admin</a></li>
+									</ul>
+								</li>
+								<li class="searchbar">
+									<a href="javascript:void(0);"><i class="feather-search"></i></a>
+									<div class="togglesearch">
+										<form action="search.html">
+											<div class="input-group">
+												<input type="text" class="form-control">
+												<button type="submit" class="btn">Search</button>
+											</div>
+										</form>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</nav>
+				</div>
+			</header>
+		<!-- /Header -->
+
+
+        <!-- Breadcrumb -->
+			<div class="breadcrumb-bar-two">
+				<div class="container">
+					<div class="row align-items-center inner-banner">
+						<div class="col-md-12 col-12 text-center">
+							<h2 class="breadcrumb-title">Profile Settings</h2>
+							<nav aria-label="breadcrumb" class="page-breadcrumb">
+								<ol class="breadcrumb">
+									<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+									<li class="breadcrumb-item" aria-current="page">Dashboard</li>
+								</ol>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /Breadcrumb -->
+
+
+        <!-- Page Content -->
+			<div class="content">
+				<div class="container">
+
+					<div class="row">
+						<div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+
+							<!-- Profile Sidebar -->
+							<div class="profile-sidebar">
+								<div class="widget-profile pro-widget-content">
+									<div class="profile-info-widget">
+										<a href="#" class="booking-doc-img">
+											<img src="assets/img/doctors/doctor-thumb-02.jpg" alt="User Image">
+										</a>
+										<div class="profile-det-info">
+											<h3>{{ doctor.username }}</h3>
+
+											<div class="patient-details">
+												<h5 class="mb-0">{{ doctor.specialty }}</h5>
+											</div>
+
+											<div class="patient-details">
+												<h5 class="mb-0">{{ doctor.hospital }}</h5>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="dashboard-widget">
+									<nav class="dashboard-menu">
+										<ul>
+											<li>
+												<a href="doctor-dashboard.html">
+													<i class="fas fa-columns"></i>
+													<span>Dashboard</span>
+												</a>
+											</li>
+											<li>
+												<a href="appointments.html">
+													<i class="fas fa-calendar-check"></i>
+													<span>Appointments</span>
+												</a>
+											</li>
+											<li>
+												<a href="my-patients.html">
+													<i class="fas fa-user-injured"></i>
+													<span>My Patients</span>
+												</a>
+											</li>
+											<li>
+												<a href="schedule-timings.html">
+													<i class="fas fa-hourglass-start"></i>
+													<span>Schedule Timings</span>
+												</a>
+											</li>
+											<li>
+												<a href="available-timings.html">
+													<i class="fas fa-clock"></i>
+													<span>Available Timings</span>
+												</a>
+											</li>
+
+											<li  class="active">
+												<a href="">
+													<i class="fas fa-user-cog"></i>
+													<span>Profile Settings</span>
+												</a>
+											</li>
+
+											<li>
+												<a href="doctor-change-password.html">
+													<i class="fas fa-lock"></i>
+													<span>Change Password</span>
+												</a>
+											</li>
+											<li>
+
+												<a href="/doctor_logout">
+													<i class="fas fa-sign-out-alt"></i>
+													<span>Logout</span>
+												</a>
+											</li>
+										</ul>
+									</nav>
+								</div>
+							</div>
+							<!-- /Profile Sidebar -->
+						</div>
+
+
+
+									<div class="col-md-7 col-lg-8 col-xl-9">
+										<!-- Basic Information -->
+										<form action="/doctor_profile_settings" method="POST" enctype="multipart/form-data">
+											<input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+										<div class="card">
+											<div class="card-body">
+												<h4 class="card-title">Basic Information</h4>
+												<div class="row">
+													<div class="col-md-12">
+														<div class="mb-3">
+															<div class="change-avatar">
+																<div class="profile-img">
+																	<img src="assets/img/doctors/doctor-thumb-02.jpg" alt="User Image">
+																</div>
+																<div class="upload-img">
+																	<div class="change-photo-btn">
+																		<span><i class="fa fa-upload"></i> Upload Photo</span>
+																		<input id="file" type="file" class="upload" name="image" />
+																	</div>
+																	<small class="form-text text-muted">Allowed JPG, GIF or PNG. Max size of 2MB</small>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="mb-3">
+															<label class="mb-2">Username <span class="text-danger">*</span></label>
+															<input type="text" class="form-control" name="username" value="{{ doctor.username }}" readonly>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="mb-3">
+															<label class="mb-2">Email <span class="text-danger">*</span></label>
+															<input type="email" class="form-control" name="email" value="{{ doctor.email }}" readonly>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="mb-3">
+															<label class="mb-2">First Name <span class="text-danger">*</span></label>
+															<input type="text" class="form-control" name="first_name" value="{{ doctor.first_name }}" readonly>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="mb-3">
+															<label class="mb-2">Last Name <span class="text-danger">*</span></label>
+															<input type="text" class="form-control" name="last_name" value="{{ doctor.last_name }}" readonly>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="mb-3">
+															<label class="mb-2">Phone Number</label>
+															<input type="text" class="form-control" name="phone_number" value="{{ doctor.phone_number }}">
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="mb-3">
+															<label class="mb-2">Gender</label>
+															<select class="form-select form-control">
+																<option>Select</option>
+																<option name="gender" id="male" value="male">Male</option>
+																<option name="gender" id="female" value="female">Female</option>
+															</select>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="mb-0">
+															<label class="mb-2">Date of Birth</label>
+															<input type="text" class="form-control" name="date_of_birth" value="{{ doctor.date_of_birth }}">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- /Basic Information -->
+
+										<!-- About Me -->
+										<div class="card">
+											<div class="card-body">
+												<h4 class="card-title">About Me</h4>
+												<div class="mb-0">
+													<label class="mb-2">Biography</label>
+													<textarea class="form-control" rows="5" name="biography" value="{{ doctor.biography }}"></textarea>
+												</div>
+											</div>
+										</div>
+										<!-- /About Me -->
+
+
+										<!-- Contact Details -->
+										<div class="card ">
+											<div class="card-body">
+												<h4 class="card-title">Contact Details</h4>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="mb-3">
+															<label class="mb-2">Address Line 1</label>
+															<input type="text" class="form-control" name="address_street" value="{{ doctor.address.street }}">
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="mb-3">
+															<label class="control-label">City</label>
+															<input type="text" class="form-control" name="address_city" value="{{ doctor.address.city }}">
+														</div>
+													</div>
+
+													<div class="col-md-6">
+														<div class="mb-3">
+															<label class="control-label">State / Province</label>
+															<input type="text" class="form-control" name="address_country" value="{{ doctor.address.country }}">
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="mb-3">
+															<label class="control-label">Postal Code</label>
+															<input type="text" class="form-control" name="address_postcode" value="{{ doctor.address.postcode }}">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- /Contact Details -->
+
+
+										<!-- Education -->
+										<div class="card">
+											<div class="card-body">
+												<h4 class="card-title">Education</h4>
+												<div class="education-info">
+													<div class="row education-cont">
+														<div class="col-12 col-md-10 col-lg-11">
+															<div class="row">
+																<div class="col-12 col-md-6 col-lg-4">
+																	<div class="mb-3">
+																		<label class="mb-2">Degree</label>
+																		<input type="text" class="form-control" name="degree" value="{{ doctor.education.degree }}">
+																	</div>
+																</div>
+																<div class="col-12 col-md-6 col-lg-4">
+																	<div class="mb-3">
+																		<label class="mb-2">College/Institute</label>
+																		<input type="text" class="form-control" name="college_institute" value="{{ doctor.education.college_institute }}">
+																	</div>
+																</div>
+																<div class="col-12 col-md-6 col-lg-4">
+																	<div class="mb-3">
+																		<label class="mb-2">Year of Completion</label>
+																		<input type="text" class="form-control" name="year_of_completion" value="{{ doctor.education.year_of_completion }}">
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="add-more">
+													<a href="javascript:void(0);" class="add-education"><i class="fa fa-plus-circle"></i> Add More</a>
+												</div>
+											</div>
+										</div>
+										<!-- /Education -->
+
+
+
+
+										<!-- Registrations -->
+										<div class="card">
+											<div class="card-body">
+												<h4 class="card-title">Registrations</h4>
+												<div class="registrations-info">
+													<div class="row reg-cont">
+														<div class="col-12 col-md-5">
+															<div class="mb-3">
+																<label class="mb-2">Registrations</label>
+																<input type="text" class="form-control">
+															</div>
+														</div>
+														<div class="col-12 col-md-5">
+															<div class="mb-3">
+																<label class="mb-2">Year</label>
+																<input type="text" class="form-control">
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="add-more">
+													<a href="javascript:void(0);" class="add-reg"><i class="fa fa-plus-circle"></i> Add More</a>
+												</div>
+											</div>
+										</div>
+										<!-- /Registrations -->
+
+										<div class="submit-section submit-btn-bottom">
+											<button type="submit" class="btn btn-primary prime-btn">Save Changes</button>
+										</div>
+											</form>
+
+									</div>
+								</div>
+
+							</div>
+										   </div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+						<!-- /Page Content -->
+
+
+
+
+
+
+
+
+
+
+            <!-- Footer -->
+                <footer class="footer footer-one">
+                    <div class="footer-top">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4">
+                                    <div class="footer-widget footer-about">
+                                        <div class="footer-logo">
+                                            <a href="index.html"><img src="assets/img/logo.png" alt="logo"></a>
+                                        </div>
+                                        <div class="footer-about-content">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4">
+                                            <div class="footer-widget footer-menu">
+                                                <h2 class="footer-title">For Patients</h2>
+                                                <ul>
+                                                    <li><a href="search.html">Search for Doctors</a></li>
+                                                    <li><a href="login.html">Login</a></li>
+                                                    <li><a href="register.html">Register</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-4">
+                                            <div class="footer-widget footer-menu">
+                                                <h2 class="footer-title">For Doctors</h2>
+                                                <ul>
+                                                    <li><a href="appointments.html">Appointments</a></li>
+                                                    <li><a href="chat.html">Chat</a></li>
+                                                    <li><a href="login.html">Login</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-4">
+                                            <div class="footer-widget footer-contact">
+                                                <h2 class="footer-title">Contact Us</h2>
+                                                <div class="footer-contact-info">
+                                                    <div class="footer-address">
+                                                        <p><i class="feather-map-pin"></i> 3556 Beech Street, Coventry</p>
+                                                    </div>
+                                                    <div class="footer-address">
+                                                        <p><i class="feather-phone-call"></i> +44 315 369 5943</p>
+                                                    </div>
+                                                    <div class="footer-address mb-0">
+                                                        <p><i class="feather-mail"></i> ola</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-7">
+                                    <div class="footer-widget">
+                                        <h2 class="footer-title">Join Our Newsletter</h2>
+                                        <div class="subscribe-form">
+                                            <form action="#">
+                                                <input type="email" class="form-control" placeholder="Enter Email">
+                                                <button type="submit" class="btn">Submit</button>
+                                            </form>
+                                        </div>
+                                        <div class="social-icon">
+                                        <ul>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fab fa-facebook"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fab fa-instagram"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fab fa-twitter"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fab fa-linkedin-in"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <div class="container">
+                            <!-- Copyright -->
+                            <div class="copyright">
+                                <div class="row">
+                                    <div class="col-md-6 col-lg-6">
+                                        <div class="copyright-text">
+                                            <p class="mb-0"> Copyright © 2024 <a href="" target="_blank">STEP-CARE.</a> All Rights Reserved</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-lg-6">
+
+                                        <!-- Copyright Menu -->
+                                        <div class="copyright-menu">
+                                            <ul class="policy-menu">
+                                                <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                                                <li><a href="terms-condition.html">Terms and Conditions</a></li>
+                                            </ul>
+                                        </div>
+                                        <!-- /Copyright Menu -->
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Copyright -->
+                        </div>
+                    </div>
+                </footer>
+                <!-- /Footer -->
+	</div>
+	<!-- /Main Wrapper -->
+
+</body>
+</html>
+

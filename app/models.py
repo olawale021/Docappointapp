@@ -5,13 +5,14 @@ from app import mongo
 
 class Patient(UserMixin):
     def __init__(self, username, first_name,
-                 last_name, date_of_birth,
+                 last_name, date_of_birth, gender,
                  phone_number, password,
                  address, registration_status='pending'):
         self.username = username
         self.first_name = first_name
         self.last_name = last_name
         self.date_of_birth = date_of_birth
+        self.gender = gender
         self.phone_number = phone_number
         self.password = password  # Make sure to hash the password before storing it
         self.address = address
@@ -29,6 +30,7 @@ class Patient(UserMixin):
                 first_name=patient_data['first_name'],
                 last_name=patient_data['last_name'],
                 date_of_birth=patient_data['date_of_birth'],
+                gender=patient_data['gender'],
                 phone_number=patient_data['phone_number'],
                 password=patient_data['password'],  # Make sure to hash the password before storing it
                 address=patient_data['address']
@@ -37,21 +39,26 @@ class Patient(UserMixin):
 
 
 class Doctor(UserMixin):
-    def __init__(self, username, first_name,
-                 last_name, date_of_birth,
-                 phone_number, password,
-                 address, hospital,
-                 specialty, registration_status='pending'):
+    def __init__(self, username, first_name, last_name, date_of_birth, gender,
+                 phone_number, password, address, hospital, specialty,
+                 registration_status='pending', image_url=None, biography=None,
+                 education=None, experience=None, registration=None):
         self.username = username
         self.first_name = first_name
         self.last_name = last_name
+        self.gender = gender
         self.date_of_birth = date_of_birth
         self.phone_number = phone_number
-        self.password = password  # Make sure to hash the password before storing it
+        self.password = password
         self.address = address
         self.hospital = hospital
         self.specialty = specialty
         self.registration_status = registration_status
+        self.image_url = image_url
+        self.biography = biography
+        self.education = education or []  # List of education records
+        self.experience = experience or []  # List of experience records
+        self.registration = registration or []  # List of registration records
 
     def get_id(self):
         return self.username
@@ -65,11 +72,18 @@ class Doctor(UserMixin):
                 first_name=doctor_data['first_name'],
                 last_name=doctor_data['last_name'],
                 date_of_birth=doctor_data['date_of_birth'],
+                gender=doctor_data['gender'],
                 phone_number=doctor_data['phone_number'],
                 password=doctor_data['password'],  # Make sure to hash the password before storing it
                 address=doctor_data['address'],
                 hospital=doctor_data['hospital'],
-                specialty=doctor_data['specialty']
+                specialty=doctor_data['specialty'],
+                registration_status=doctor_data.get('registration_status', 'pending'),
+                image_url=doctor_data.get('image_url'),
+                biography=doctor_data.get('biography'),
+                education=doctor_data.get('education', []),
+                experience=doctor_data.get('experience', []),
+                registration=doctor_data.get('registration', [])
             )
         return None
 

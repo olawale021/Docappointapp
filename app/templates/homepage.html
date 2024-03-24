@@ -9,6 +9,25 @@
 	<script src="https://kit.fontawesome.com/ad92737229.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/styles.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+
+
+	<style>
+		.speicality-item p {
+			margin-top: 10px;
+			font-size: 16px;
+		}
+
+		.speicality-img img {
+			border-radius: 50%;
+			width: 100px;
+			height: 100px;
+			object-fit: cover;
+
+		.section-specialities {
+		padding-top: 40px;
+		}
+	</style>
 </head>
 <body>
 
@@ -115,14 +134,14 @@
 					</div>
 
 					<!-- Search -->
-					<div class="search-box">
-						<form action="/search_doctor" method="get">
+					<div class="search-box mb-3">
+						<form id="searchForm" action="/search_doctor" method="get">
 							<div class="mb-3 search-location aos" data-aos="fade-up">
-								<input type="text" name="address" class="form-control" placeholder="Search Location">
+								<input type="text" id="addressInput" name="address" class="form-control" placeholder="Search Location">
 								<span class="form-text">Based on your Location</span>
 							</div>
 							<div class="mb-3 search-info aos" data-aos="fade-up">
-								<input type="text" name="name" class="form-control"
+								<input type="text" id="nameInput" name="name" class="form-control"
 									placeholder="Search Doctors, Clinics, Hospitals, Diseases Etc">
 								<span class="form-text">Ex : Dental or Sugar Check up etc</span>
 							</div>
@@ -137,8 +156,290 @@
 		</section>
 		<!-- /Home Banner -->
 
+		<!-- Clinic and Specialities -->
+		<section class="section section-specialities mt-3" >
+			<div class="container-fluid">
+				<div class="section-header text-center aos" data-aos="fade-up">
+					<h2>Clinic and Specialities</h2>
+					<p class="sub-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+						incididunt ut labore et dolore magna aliqua.</p>
+				</div>
+				<div class="row justify-content-center">
+					<div class="col-md-9 aos" data-aos="fade-up">
+						<!-- Slider -->
+						<div class="specialities-slider slider">
+
+							<!-- Slider Item -->
+							<div class="speicality-item text-center">
+								<div class="speicality-img">
+									<img src="/static/img/specialities-01.png" class="img-fluid"
+										alt="Speciality">
+									<span><i class="fa fa-circle" aria-hidden="true"></i></span>
+								</div>
+								<p>Urology</p>
+							</div>
+							<!-- /Slider Item -->
+
+							<!-- Slider Item -->
+							<div class="speicality-item text-center">
+								<div class="speicality-img">
+									<img src="/static/img/specialities-02.png" class="img-fluid"
+										alt="Speciality">
+									<span><i class="fa fa-circle" aria-hidden="true"></i></span>
+								</div>
+								<p>Neurology</p>
+							</div>
+							<!-- /Slider Item -->
+
+							<!-- Slider Item -->
+							<div class="speicality-item text-center">
+								<div class="speicality-img">
+									<img src="/static/img/specialities-03.png" class="img-fluid"
+										alt="Speciality">
+									<span><i class="fa fa-circle" aria-hidden="true"></i></span>
+								</div>
+								<p>Orthopedic</p>
+							</div>
+							<!-- /Slider Item -->
+
+							<!-- Slider Item -->
+							<div class="speicality-item text-center">
+								<div class="speicality-img">
+									<img src="/static/img/specialities-04.png" class="img-fluid"
+										alt="Speciality">
+									<span><i class="fa fa-circle" aria-hidden="true"></i></span>
+								</div>
+								<p>Cardiologist</p>
+							</div>
+							<!-- /Slider Item -->
+
+							<!-- Slider Item -->
+							<div class="speicality-item text-center">
+								<div class="speicality-img">
+									<img src="/static/img/specialities-05.png" class="img-fluid"
+										alt="Speciality">
+									<span><i class="fa fa-circle" aria-hidden="true"></i></span>
+								</div>
+								<p>Dentist</p>
+							</div>
+							<!-- /Slider Item -->
+
+							<!-- Slider Item -->
+							<div class="speicality-item text-center">
+								<div class="speicality-img">
+									<img src="/static/img/specialities-01.png" class="img-fluid"
+										alt="Speciality">
+									<span><i class="fa fa-circle" aria-hidden="true"></i></span>
+								</div>
+								<p>Urology</p>
+							</div>
+							<!-- /Slider Item -->
+
+							<!-- Slider Item -->
+							<div class="speicality-item text-center">
+								<div class="speicality-img">
+									<img src="/static/img/specialities-02.png" class="img-fluid"
+										alt="Speciality">
+									<span><i class="fa fa-circle" aria-hidden="true"></i></span>
+								</div>
+								<p>Neurology</p>
+							</div>
+							<!-- /Slider Item -->
+
+						</div>
+						<!-- /Slider -->
+
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Clinic and Specialities -->
+
+		<!-- Popular Section -->
+<section class="section section-doctor">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 aos" data-aos="fade-up">
+                <div class="section-header">
+                    <h2>Book Our Doctor</h2>
+                    <p>Lorem Ipsum is simply dummy text</p>
+                </div>
+                <div class="about-content">
+                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum.</p>
+                    <p>web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes</p>
+                    <a href="javascript:void(0)">Read More..</a>
+                </div>
+            </div>
+            <div class="col-lg-8 aos" data-aos="fade-up">
+    <div class="doctor-slider">
+        <!-- Wrap the doctors' profiles in a container for the slider -->
+        <div class="doctor-profiles">
+            {% for doctor in doctors %}
+            <!-- Doctor Widget -->
+            <div class="profile-widget">
+                <div class="doc-img">
+                    <a href="doctor-profile.html?doctor_id={{ doctor._id }}">
+                        <img class="img-fluid" alt="User Image" src="{{ doctor.image_url }}" width="630" height="420">
+                    </a>
+                    <a href="javascript:void(0)" class="fav-btn">
+                        <i class="far fa-bookmark"></i>
+                    </a>
+                </div>
+                <div class="pro-content">
+                    <h3 class="title">
+                        <a href="doctor-profile.html?doctor_id={{ doctor._id }}">{{ doctor.username }}</a>
+                        <i class="fas fa-check-circle verified"></i>
+                    </h3>
+                    <p class="speciality">{{ doctor.specialty }}</p>
+                    <div class="rating">
+                        <i class="fas fa-star filled"></i>
+                        <i class="fas fa-star filled"></i>
+                        <i class="fas fa-star filled"></i>
+                        <i class="fas fa-star filled"></i>
+                        <i class="fas fa-star"></i>
+                        <span class="d-inline-block average-rating">({{ doctor.ratings }})</span>
+                    </div>
+                    <ul class="available-info">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i> {{ doctor.address.city }}
+                        </li>
+                        <li>
+                            <i class="far fa-clock"></i> Available on {{ doctor.availability }}
+                        </li>
+                        <li>
+                            <i class="far fa-money-bill-alt"></i> {{ doctor.fee_range }}
+                            <i class="fas fa-info-circle" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
+                        </li>
+                    </ul>
+                    <div class="row row-sm">
+                        <div class="col-6">
+                            <a href="doctor-profile.html?doctor_id={{ doctor._id }}" class="btn view-btn">View Profile</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="booking.html?doctor_id={{ doctor._id }}" class="btn book-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Doctor Widget -->
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+        </div>
+    </div>
+</section>
+<!-- /Popular Section -->
+
+
+
 	</div>
 	<!-- /Main Wrapper -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Slick requires jQuery -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchForm = document.getElementById('searchForm');
+    const addressInput = document.getElementById('addressInput');
+    const nameInput = document.getElementById('nameInput');
+
+    searchForm.addEventListener('submit', function(event) {
+        if (!addressInput.value && !nameInput.value) {
+            // If both fields are empty, prevent form submission and alert the user
+            event.preventDefault();
+            alert('Please fill in at least one search criterion.');
+            addressInput.setAttribute('required', 'required');
+            nameInput.setAttribute('required', 'required');
+        } else {
+            // If one of the fields has a value, allow form submission
+            addressInput.removeAttribute('required');
+            nameInput.removeAttribute('required');
+        }
+    });
+});
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.specialities-slider').slick({
+            infinite: true,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 2000,
+            dots: true,
+            responsive: [
+                {
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 3,
+                        infinite: true,
+                        dots: true
+                    }
+                },
+                {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }
+            ]
+        });
+    });
+</script>
+
+
+
+<script>
+$(document).ready(function(){
+    $('.doctor-profiles').slick({
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2000,
+        dots: true,
+        arrows: true,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    infinite: true,
+                    dots: true
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }
+        ]
+    });
+});
+</script>
+
+
+
+
+
+
+
 
 </body>
 </html>
