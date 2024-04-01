@@ -19,6 +19,10 @@ mongo = PyMongo(app)
 logging.basicConfig(level=logging.INFO)
 bootstrap = Bootstrap(app)
 
+if app.config["TESTING"]:
+    # Configure your application for testing
+    app.config["MONGO_URI"] = "mongodb://localhost:27017/myTestDatabase"
+
 
 @login_manager.user_loader
 def load_user(_id):

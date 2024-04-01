@@ -22,6 +22,13 @@
                             <p class="account-subtitle">Access to our dashboard</p>
 
                             <!-- Form -->
+                            {% with messages = get_flashed_messages(with_categories=true) %}
+                              {% if messages %}
+                                {% for category, message in messages %}
+                                  <div class="alert alert-{{ category }}">{{ message }}</div>
+                                {% endfor %}
+                              {% endif %}
+                            {% endwith %}
                             <form action="/admin_login" method="POST">
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                                 <div class="mb-4">
