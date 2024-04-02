@@ -4,10 +4,9 @@ from app import mongo
 
 
 class Patient(UserMixin):
-    def __init__(self, username, first_name,
-                 last_name, date_of_birth, gender,
-                 phone_number, password,
-                 address, registration_status='pending'):
+    def __init__(self, username, first_name, last_name, date_of_birth, gender,
+                 phone_number, password, address, image_url=None, blood_group=None, email=None,
+                 registration_status='pending'):
         self.username = username
         self.first_name = first_name
         self.last_name = last_name
@@ -16,6 +15,9 @@ class Patient(UserMixin):
         self.phone_number = phone_number
         self.password = password  # Make sure to hash the password before storing it
         self.address = address
+        self.image_url = image_url  # New field for the patient's image URL
+        self.blood_group = blood_group  # New field for the patient's blood group
+        self.email = email
         self.registration_status = registration_status
 
     def get_id(self):
@@ -32,8 +34,11 @@ class Patient(UserMixin):
                 date_of_birth=patient_data['date_of_birth'],
                 gender=patient_data['gender'],
                 phone_number=patient_data['phone_number'],
-                password=patient_data['password'],  # Make sure to hash the password before storing it
-                address=patient_data['address']
+                password=patient_data['password'],  # Assuming this is already hashed
+                address=patient_data['address'],
+                image_url=patient_data.get('image_url'),  # Use .get for optional fields
+                blood_group=patient_data.get('blood_group'),
+                email=patient_data.get('email')
             )
         return None
 

@@ -131,7 +131,7 @@
 								<div class="widget-profile pro-widget-content">
 									<div class="profile-info-widget">
 										<a href="#" class="booking-doc-img">
-											<img src="assets/img/patients/patient.jpg" alt="User Image">
+											<img src="{{patient_info.image_url}}" alt="User Image">
 										</a>
 										<div class="profile-det-info">
 											<h3>{{patient_full_name}}</h3>
@@ -182,7 +182,7 @@
 												</a>
 											</li>
 											<li>
-												<a href="profile-settings.html">
+												<a href="/patient_profile_settings">
 													<i class="fas fa-user-cog"></i>
 													<span>Profile Settings</span>
 												</a>
@@ -303,12 +303,12 @@
 																	<td>
 																		<h2 class="table-avatar">
 																			<a href="/doctor_profile/{{appointment.doctor_info._id}}" class="avatar avatar-sm me-2">
-																				<img class="avatar-img rounded-circle" src="" alt="">
+																				<img class="avatar-img rounded-circle" src="{{appointment.doctor_info.image_url}}" alt="">
 																			</a>
 																			<a href="/doctor_profile/{{appointment.doctor_info._id}}">{{appointment.doctor_info.username}} <span>{{appointment.doctor_info.specialty}}</span></a>
 																		</h2>
 																	</td>
-																	<td>{{appointment.date}} <span class="d-block text-info">{{appointment.time}}</span></td>
+																	<td>{{appointment.formatted_date}} <span class="d-block text-info">{{appointment.time}}</span></td>
 
 																	<td><span class="badge rounded-pill bg-success-light">{{appointment.status}}</span></td>
 																	<td>

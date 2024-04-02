@@ -1,3 +1,6 @@
+import re
+from datetime import datetime
+
 from flask import render_template, redirect, url_for, flash, session
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -28,126 +31,80 @@ def home():
 
 @app.route('/patient_registration', methods=['GET', 'POST'])
 def patient_registration():
+    required_fields = ['username', 'first_name', 'last_name', 'date_of_birth', 'phone_number', 'password', 'address']
     if request.method == 'POST':
-        try:
-            if request.is_json:
-                data = request.get_json()
-                logging.info('Received JSON data: %s', data)
+        data = request.get_json() if request.is_json else request.form.to_dict()
+        logging.info('Received data: %s', data)
 
-            else:
-                data = request.form.to_dict()
-                logging.info('Received form data: error', data)
+        missing_fields = [field for field in required_fields if field not in data]
+        if missing_fields:
+            return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
 
-            username = data['username']
-            first_name = data['first_name']
-            last_name = data['last_name']
-            date_of_birth = data['date_of_birth']
-            gender = data['gender']
-            phone_number = data['phone_number']
-            password = data['password']
-            address = data['address']
+        if len(data.get('username', '')) < 5:
+            return jsonify({"error": "Username must be at least 5 characters long"}), 400
 
-            # Hash the password before storing it
-            hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+        hashed_password = generate_password_hash(data['password'], method='pbkdf2:sha256')
+        data['password'] = hashed_password
 
-            # Insert the patient data into MongoDB
-            mongo.db.patients.insert_one({
-                'username': username,
-                'first_name': first_name,
-                'last_name': last_name,
-                'date_of_birth': date_of_birth,
-                'gender': gender,
-                'phone_number': phone_number,
-                'password': hashed_password,
-                'address': address,
-                'registration_status': 'pending'
-            })
+        data['registration_status'] = 'pending'
 
-            flash("Patient registration successful", "success", )
-            return render_template('/patient/registration_pending.html', csrf_token=generate_csrf())
+        # Insert the patient data into MongoDB, adapted for demonstration
+        mongo.db.patients.insert_one(data)
 
-        except KeyError as e:
-            return jsonify({"error": f"Missing key: {str(e)}"}), 400
+        flash("Patient registration successful", "success")
+        return render_template('/patient/registration_pending.html', csrf_token=generate_csrf())
 
     return render_template('patient/patient_registration.html', csrf_token=generate_csrf())
 
 
 @app.route('/doctor_registration', methods=['GET', 'POST'])
 def register_doctor():
-    try:
-        if request.method == 'POST':
-            if request.is_json:
-                data = request.get_json()
-            else:
-                data = request.form.to_dict(flat=True)  # Convert ImmutableMultiDict to regular dict
+    required_fields = [
+        'username', 'first_name', 'last_name', 'date_of_birth',
+        'gender', 'phone_number', 'password', 'hospital', 'specialty'
+    ]
 
-            username = data['username']
-            first_name = data['first_name']
-            last_name = data['last_name']
-            date_of_birth = data['date_of_birth']
-            gender = data['gender']
-            phone_number = data['phone_number']
-            password = data['password']
-            # Handle address as an object
-            address = {
-                "street": data.get('address_street'),
-                "city": data.get('address_city'),
-                "country": data.get('address_country'),
-                "postcode": data.get('address_postcode'),
-            }
-            hospital = data['hospital']
-            specialty = data['specialty']
-            image_url = data.get('image_url')  # Optional
-            biography = data.get('biography')
+    if request.method == 'POST':
+        data = request.get_json() if request.is_json else request.form.to_dict(flat=True)
 
-            education = [{
-                "degree": data.get('degree'),
-                "college_institute": data.get('college_institute'),
-                "year_of_completion": data.get('year_of_completion')
-            }]
+        # Check for missing required fields
+        missing_fields = [field for field in required_fields if not data.get(field)]
+        if missing_fields:
+            return jsonify({"error": f"Missing or empty required fields: {', '.join(missing_fields)}"}), 400
 
-            experience = [{
-                "hospital_name": data.get('hospital'),
-                "from_date": data.get('from_date'),
-                "to_date": data.get('to_date'),
-                "role": data.get('role')
-            }]
+        # Validate phone number format: exactly 11 digits
+        if not re.match(r'^\d{11}$', data['phone_number']):
+            return jsonify({"error": "Phone number must be exactly 11 digits"}), 400
 
-            registration = [{
-                "registration_name": data.get('registration_name'),
-                "year": data.get('year'),
-            }]
+        # Additional validations can be added here as needed
 
-            # Hash the password before storing it
-            hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+        # Hash the password
+        hashed_password = generate_password_hash(data['password'], method='pbkdf2:sha256')
 
-            # Insert the doctor data into MongoDB
-            mongo.db.doctors.insert_one({
-                'username': username,
-                'first_name': first_name,
-                'last_name': last_name,
-                'date_of_birth': date_of_birth,
-                'gender': gender,
-                'phone_number': phone_number,
-                'password': hashed_password,
-                'address': address,  # Store address as an object
-                'hospital': hospital,
-                'specialty': specialty,
-                'registration_status': 'pending',
-                'image_url': image_url,
-                'biography': biography,
-                'education': education,
-                'experience': experience,
-                'registration': registration
-            })
+        address = {
+            "street": data.get('address_street', ''),
+            "city": data.get('address_city', ''),
+            "country": data.get('address_country', ''),
+            "postcode": data.get('address_postcode', ''),
+        }
 
-            flash("Doctor registration successful", "success")
-            return render_template('/patient/registration_pending.html', csrf_token=generate_csrf())
+        education, experience, registration = [], [], []
 
-        return render_template('/doctor/doctor_registration.html', csrf_token=generate_csrf())
+        # Insert data into MongoDB (Ensure MongoDB setup and connection are correctly configured)
+        mongo.db.doctors.insert_one({
+             'username': data['username'], 'first_name': data['first_name'], 'last_name': data['last_name'],
+             'date_of_birth': data['date_of_birth'], 'gender': data['gender'], 'phone_number': data['phone_number'],
+             'password': hashed_password, 'address': address,
+             'hospital': data['hospital'], 'specialty': data['specialty'],
+             'registration_status': 'pending', 'image_url': data.get('image_url', ''),
+             'biography': data.get('biography', ''), 'education': education, 'experience': experience,
+             'registration': registration
+         })
 
-    except KeyError as e:
-        return jsonify({"error": f"Missing key: {str(e)}"}), 400
+        flash("Doctor registration successful", "success")
+        return render_template('/patient/registration_pending.html', csrf_token=generate_csrf())
+
+    return render_template('/doctor/doctor_registration.html', csrf_token=generate_csrf())
 
 
 @app.route('/register_admin', methods=['GET', 'POST'])
@@ -244,7 +201,16 @@ def admin_login():
         admin_username = request.form.get('username')
         admin_password = request.form.get('password')
 
+        if not admin_username:
+            flash('Username is required.', 'error')
+            return render_template('/admin/admin_login.html', csrf_token=generate_csrf())
+        if not admin_password:
+            flash('Password is required.', 'error')
+            return render_template('/admin/admin_login.html', csrf_token=generate_csrf())
+
+        print("Before find_one call")
         admin_data = mongo.db.admins.find_one({'username': admin_username})
+        print("After find_one call", admin_data)
 
         if admin_data and check_password_hash(admin_data['password'], admin_password):
             # Successful login
@@ -284,7 +250,7 @@ def admin_dashboard():
     pending_patients = get_pending_patients()
     approved_patients = get_approved_patients()
     sample_appointment = all_appointments[0] if all_appointments else None
-    print("smple", all_appointments)
+    # print("smple", all_appointments)
 
     return render_template('admin/admin_dashboard.html',
                            all_patients=all_patients,
@@ -368,17 +334,17 @@ def booking_success():
             doctor_oid = ObjectId(doctor_id)
         except InvalidId:
             flash('Invalid doctor ID provided.', 'error')
-            return redirect(url_for('some_error_handling_route'))  # Adjust this to your actual error handling route
+            return redirect(url_for('some_error_handling_route'))
 
         try:
             doctor_info = mongo.db.doctors.find_one({'_id': doctor_oid})
         except PyMongoError as e:
             flash('Database error occurred.', 'error')
-            return redirect(url_for('some_error_handling_route'))  # Adjust this to your actual error handling route
+            return redirect(url_for('some_error_handling_route'))
 
         if not doctor_info:
             flash('Doctor not found.', 'error')
-            return redirect(url_for('some_error_handling_route'))  # Adjust this to your actual error handling route
+            return redirect(url_for('some_error_handling_route'))
 
     return render_template('/patient/booking_success.html',
                            doctor_info=doctor_info,
@@ -411,9 +377,13 @@ def patient_dashboard():
         return redirect(url_for('patient_login'))
 
     appointments = mongo.db.appointments.find({'patient_id': patient_oid})
+
     appointments_list = list(appointments)
 
     for appointment in appointments_list:
+        if 'date' in appointment:
+            appointment['formatted_date'] = datetime.strptime(appointment['date'], '%Y-%m-%d').strftime('%d %B %Y')
+
         doctor_oid = appointment['doctor_id']
         doctor_info = mongo.db.doctors.find_one({'_id': doctor_oid})
         appointment['doctor_info'] = doctor_info
@@ -421,7 +391,7 @@ def patient_dashboard():
     registration_status = patient_data.get('registration_status', 'pending')
     patient_full_name = f"{patient_data.get('first_name', '')} {patient_data.get('last_name', '')}".strip()
 
-    # Assuming get_all_doctors() and get_busy_dates_by_doctor() are defined elsewhere and applicable
+    #  get_all_doctors() and get_busy_dates_by_doctor() are defined in utils.py
     doctors = get_all_doctors()
     busy_dates_by_doctor = get_busy_dates_by_doctor()
 
@@ -478,6 +448,12 @@ def doctor_dashboard():
 
     # Retrieve fixed appointments for the specific doctor
     fixed_appointments = get_fixed_appointments_for_doctor(doctor_id)
+    for appointment in appointment_requests + fixed_appointments:
+        if 'date' in appointment:
+            appointment['formatted_date'] = datetime.strptime(appointment['date'], '%Y-%m-%d').strftime('%d %B %Y')
+        if appointment.get('patient_info'):
+            patient = appointment['patient_info']
+            patient['full_name'] = f"{patient.get('first_name', '')} {patient.get('last_name', '')}".strip()
 
     return render_template('doctor/doctor_dashboard.html', doctor=doctor,
                            appointment_requests=appointment_requests, fixed_appointments=fixed_appointments, csrf_token=generate_csrf())
@@ -485,20 +461,21 @@ def doctor_dashboard():
 
 @app.route('/approve_appointment/<appointment_id>', methods=['GET', 'POST'])
 def approve_appointment(appointment_id):
-    # Convert appointment_id to ObjectId
-    appointment_id = ObjectId(appointment_id)
-    # print("Appointment ID:", appointment_id)  # Debug print
-    appointment = mongo.db.appointments.find_one({'_id': appointment_id})
-    # print("Appointment:", appointment)  # Debug print
+    try:
+        appointment_id = ObjectId(appointment_id)
+        appointment = mongo.db.appointments.find_one({'_id': appointment_id})
 
-    # Check if the appointment exists
-    if not appointment:
-        return jsonify({"message": "Appointment not found"}), 404
+        if not appointment:
+            flash('Appointment not found', 'error')
+            return redirect(url_for('doctor_dashboard'))  # Adjust as necessary for your route structure
 
-    # Update appointment status to approved
-    mongo.db.appointments.update_one({'_id': appointment_id}, {'$set': {'status': 'approved'}})
+        mongo.db.appointments.update_one({'_id': appointment_id}, {'$set': {'status': 'approved'}})
+        flash('Appointment approved successfully', 'success')
 
-    return jsonify({"message": "Appointment approved"}), 200
+    except Exception as e:
+        flash(f'An error occurred: {e}', 'error')
+
+    return redirect(url_for('doctor_dashboard'))
 
 
 @app.route('/delete_appointment/<appointment_id>', methods=['POST'])
@@ -830,7 +807,7 @@ def doctor_profile_settings():
         mongo.db.doctors.update_one({'_id': doctor_oid}, {'$set': update_data})
 
         flash('Profile updated successfully.', 'success')
-        return redirect(url_for('doctor_dashboard', csrf_token=generate_csrf()))  # Redirect to a page showing the update is successful
+        return redirect(url_for('doctor_dashboard', csrf_token=generate_csrf()))
 
     # GET request: Load the update form with the current user's data
     doctor_data = mongo.db.doctors.find_one({'_id': doctor_oid})
@@ -841,3 +818,125 @@ def doctor_profile_settings():
         flash('Doctor profile not found.', 'error')
         print("data", doctor_data)
         return redirect(url_for('doctor_dashboard', csrf_token=generate_csrf()))
+
+
+@app.route('/doctor_appointment')
+def doctor_appointment():
+    doctor_id = session.get('doctor_id')
+    if not doctor_id:
+        flash('Please login first.', 'error')
+        return redirect(url_for('doctor_login'))
+
+    doctor_oid = ObjectId(doctor_id)
+    doctor = mongo.db.doctors.find_one({'_id': doctor_oid})
+
+    if not doctor:
+        flash('Doctor not found', 'error')
+        return redirect(url_for('doctor_login'))
+
+    appointments_cursor = mongo.db.appointments.find({'doctor_id': doctor_oid})
+
+    # Convert cursor to list and enrich with patient info
+    appointments_list = []
+    for appointment in appointments_cursor:
+        patient = mongo.db.patients.find_one({'_id': appointment['patient_id']})
+        if patient:
+            patient_full_name = f"{patient.get('first_name', '')} {patient.get('last_name', '')}".strip()
+
+            appointment['patient_name'] = patient_full_name
+            appointment['patient_address'] = patient.get('address')
+            appointment['patient_phone'] = patient.get('phone_number')
+            appointment['patient_image_url'] = patient.get('image_url', 'assets/img/patients/default.jpg')
+        appointments_list.append(appointment)
+
+    return render_template('/doctor/doctor_appointment.html', appointments=appointments_list, doctor=doctor)
+
+
+@app.route('/appointment/<appointment_id>/accept', methods=['POST'])
+def accept_appointment(appointment_id):
+    doctor_id = session.get('doctor_id')
+    if not doctor_id:
+        flash('Please login first.', 'error')
+        return redirect(url_for('doctor_login'))
+
+    doctor_oid = ObjectId(doctor_id)
+    doctor = mongo.db.doctors.find_one({'_id': doctor_oid})
+
+    if not doctor:
+        flash('Doctor not found', 'error')
+        return redirect(url_for('doctor_login'))
+    try:
+        mongo.db.appointments.update_one({'_id': ObjectId(appointment_id)}, {'$set': {'status': 'approved'}})
+        flash('Appointment accepted successfully.', 'success')
+    except Exception as e:
+        flash(f'Error accepting appointment: {str(e)}', 'error')
+    return redirect(url_for('doctor_dashboard', doctor=doctor, csrf_token=generate_csrf()))
+
+
+@app.route('/appointment/<appointment_id>/cancel', methods=['POST'])
+@login_required
+def cancel_appointment(appointment_id):
+    try:
+        mongo.db.appointments.update_one({'_id': ObjectId(appointment_id)}, {'$set': {'status': 'cancelled'}})
+        flash('Appointment cancelled successfully.', 'success')
+    except Exception as e:
+        flash(f'Error cancelling appointment: {str(e)}', 'error')
+    return redirect(url_for('doctor_appointment'))
+
+
+@app.route('/patient_profile_settings', methods=['GET', 'POST'])
+def patient_profile_settings():
+    patient_id = session.get('patient_id')
+    if not patient_id:
+        flash('Please login first.', 'error')
+        return redirect(url_for('patient_login'))
+
+    patient_oid = ObjectId(patient_id)
+    patient = mongo.db.patients.find_one({'_id': patient_oid})
+
+    if not patient:
+        flash('Patient not found', 'error')
+        return redirect(url_for('patient_login'))
+
+    if request.method == 'POST':
+        data = request.form.to_dict(flat=True)
+
+        # Handle image upload similarly as done for doctors, adjust the fields accordingly
+        image_url = None
+        if 'image' in request.files and request.files['image']:
+            image_to_upload = request.files['image']
+            result = cloudinary.uploader.upload(image_to_upload, resource_type='image')
+            image_url = result.get('secure_url')
+
+        # Prepare the update data, ensure to capture all form inputs correctly
+        update_data = {
+            'first_name': data.get('first_name'),
+            'last_name': data.get('last_name'),
+            'date_of_birth': data.get('date_of_birth'),
+            'gender': data.get('gender'),
+            'blood_group': data.get('blood_group'),
+            'email': data.get('email'),
+            'phone_number': data.get('phone'),  # Ensure consistency in your naming convention
+            'address': {
+                "street": data.get('address_street'),
+                "city": data.get('address_city'),
+                "country": data.get('address_country'),
+                "postcode": data.get('address_postcode'),
+            },
+            'image_url': image_url  # Ensure this is only updated if a new image is uploaded
+        }
+
+        # Only include 'image_url' in the update if a new image was uploaded
+        if image_url:
+            update_data['image_url'] = image_url
+        else:
+            # Remove the 'image_url' key if no new image was uploaded
+            update_data.pop('image_url', None)
+
+        # Update patient profile in MongoDB
+        mongo.db.patients.update_one({'_id': patient_oid}, {'$set': update_data})
+        flash('Profile updated successfully.', 'success')
+        return redirect(url_for('patient_dashboard'))
+
+    return render_template('patient/patient_profile_settings.html', patient=patient, csrf_token=generate_csrf())
+

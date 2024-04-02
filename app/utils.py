@@ -94,33 +94,48 @@ def get_patient_full_name(patient):
 
 
 def get_appointment_requests_for_doctor(doctor_id):
-    """
-    Retrieve appointment requests for a specific doctor.
-    :param doctor_id: The ObjectId of the doctor.
-    :return: A list of appointment requests.
-    """
-    try:
-        # Convert string doctor_id to ObjectId
-        doctor_oid = ObjectId(doctor_id)
-        # Query for appointment requests
-        appointment_requests = list(mongo.db.appointments.find({'doctor_id': doctor_oid, 'status': 'requested'}))
-        return appointment_requests
-    except Exception as e:
-        print(f"Error retrieving appointment requests: {e}")
-        return []
+    appointments = mongo.db.appointments.find({'doctor_id': ObjectId(doctor_id), 'status': 'requested'})
+    appointments_list = list(appointments)
+
+    for appointment in appointments_list:
+        patient_id = appointment.get('patient_id')
+        if patient_id:
+            # Fetch the patient information for each appointment
+            patient_info = mongo.db.patients.find_one({'_id': ObjectId(patient_id)})
+            # Add the patient information to the appointment document
+            appointment['patient_info'] = patient_info
+        else:
+            appointment['patient_info'] = None
+
+    return appointments_list
+
+
+from bson.objectid import ObjectId
 
 
 def get_fixed_appointments_for_doctor(doctor_id):
     """
-    Retrieve fixed (confirmed) appointments for a specific doctor.
+    Retrieve fixed (confirmed) appointments for a specific doctor and include patient information.
     :param doctor_id: The ObjectId of the doctor.
-    :return: A list of fixed appointments.
+    :return: A list of fixed appointments with patient information.
     """
     try:
         # Convert string doctor_id to ObjectId
         doctor_oid = ObjectId(doctor_id)
         # Query for confirmed appointments
         fixed_appointments = list(mongo.db.appointments.find({'doctor_id': doctor_oid, 'status': 'approved'}))
+
+        # Enhance each appointment with patient information
+        for appointment in fixed_appointments:
+            patient_id = appointment.get('patient_id')
+            if patient_id:
+                # Fetch the patient information for each appointment
+                patient_info = mongo.db.patients.find_one({'_id': ObjectId(patient_id)})
+                # Add the patient information to the appointment document
+                appointment['patient_info'] = patient_info
+            else:
+                appointment['patient_info'] = None
+
         return fixed_appointments
     except Exception as e:
         print(f"Error retrieving fixed appointments: {e}")
