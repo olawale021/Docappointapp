@@ -334,17 +334,17 @@ def booking_success():
             doctor_oid = ObjectId(doctor_id)
         except InvalidId:
             flash('Invalid doctor ID provided.', 'error')
-            return redirect(url_for('some_error_handling_route'))
+            return redirect(url_for('error_page'))
 
         try:
             doctor_info = mongo.db.doctors.find_one({'_id': doctor_oid})
         except PyMongoError as e:
             flash('Database error occurred.', 'error')
-            return redirect(url_for('some_error_handling_route'))
+            return redirect(url_for('error_page'))
 
         if not doctor_info:
             flash('Doctor not found.', 'error')
-            return redirect(url_for('some_error_handling_route'))
+            return redirect(url_for('error_page'))
 
     return render_template('/patient/booking_success.html',
                            doctor_info=doctor_info,
@@ -531,22 +531,22 @@ def book_appointment():
 
     if not doctor_id:
         flash('Doctor ID not provided.', 'error')
-        return redirect(url_for('some_route'))
+        return redirect(url_for('/error_page'))
 
     try:
         doctor_oid = ObjectId(doctor_id)
     except InvalidId:
         flash('Invalid doctor ID provided.', 'error')
-        return redirect(url_for('some_route'))
+        return redirect(url_for('/error_page'))
 
     try:
         doctor_info = mongo.db.doctors.find_one({'_id': doctor_oid})
         if not doctor_info:
             flash('Doctor not found.', 'error')
-            return redirect(url_for('some_route'))
+            return redirect(url_for('/error_page'))
     except PyMongoError:
         flash('Database error occurred.', 'error')
-        return redirect(url_for('some_route'))
+        return redirect(url_for('/error_page'))
 
     # patient ID is stored in session upon login
     patient_id = session.get('patient_id')
@@ -557,6 +557,12 @@ def book_appointment():
     print("did", doctor_id)
     return render_template('/patient/book_appointment.html', doctor_id=doctor_id,
                            doctor_info=doctor_info, patient_id=patient_id, form=form)
+
+
+@app.route('/error_page')
+def error_page():
+
+    return render_template('/404_page.html')
 
 
 @app.route('/admin_appointments')
@@ -648,18 +654,21 @@ def update_patients_status(patient_id):
 @app.route('/admin/patients/delete/<patient_id>', methods=['POST'])
 def delete_patient(patient_id):
     try:
-        # Convert the string ID to a MongoDB ObjectId
         object_id = ObjectId(patient_id)
-
         result = mongo.db.patients.delete_one({'_id': object_id})
 
         if result.deleted_count == 0:
-            return render_template('admin/error_message.html', message="Patient not found")
+            message = "Patient not found"
+            app.logger.info(message)  # Log as info or warning as it's an expected situation
+            return render_template('admin/error_message.html', message=message)
 
+        app.logger.info(f"Patient {patient_id} deleted successfully.")
         return render_template('admin/success_message.html')
 
     except Exception as e:
-        return render_template('admin/error_message.html', message=f"An error occurred: {str(e)}")
+        error_message = f"An error occurred while deleting patient {patient_id}: {str(e)}"
+        app.logger.error(error_message)  # Log the error
+        return render_template('admin/error_message.html', message=error_message)
 
 
 @app.route('/admin/doctors')
@@ -936,7 +945,12 @@ def patient_profile_settings():
         # Update patient profile in MongoDB
         mongo.db.patients.update_one({'_id': patient_oid}, {'$set': update_data})
         flash('Profile updated successfully.', 'success')
-        return redirect(url_for('patient_dashboard'))
+        return redirect(url_for('patient_success_message'))
 
     return render_template('patient/patient_profile_settings.html', patient=patient, csrf_token=generate_csrf())
 
+
+@app.route('/patient_success_message')
+def patient_success_message():
+
+    return render_template('/patient/success_message.html',  csrf_token=generate_csrf())

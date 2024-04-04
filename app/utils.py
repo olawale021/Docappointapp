@@ -9,7 +9,7 @@ from wtforms.validators import DataRequired
 
 
 class AppointmentForm(FlaskForm):
-    # Define your form fields here, for example:
+    # Define form fields here
     patient_id = StringField('Patient ID', validators=[DataRequired()])
     doctor_id = StringField('Doctor ID', validators=[DataRequired()])
     date = StringField('Date', validators=[DataRequired()])
