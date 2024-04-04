@@ -131,7 +131,7 @@
 								<div class="widget-profile pro-widget-content">
 									<div class="profile-info-widget">
 										<a href="#" class="booking-doc-img">
-											<img src="assets/img/patients/patient.jpg" alt="User Image">
+											<img src="{{ patient.image_url | default('assets/img/patients/default.jpg') }}" alt="User Image">
 										</a>
 										<div class="profile-det-info">
 											<h3>{{patient_full_name}}</h3>

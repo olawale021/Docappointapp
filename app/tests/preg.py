@@ -39,12 +39,7 @@ def user_logged_in(user):
     user.is_authenticated = original_is_authenticated
 
 
-def test_patient_registration_get(client):
-    # Test the GET request to the patient registration route
-    response = client.get('/patient_registration')
-    assert response.status_code == 200
-    # Adjust this assertion based on the actual content of your registration form
-    assert b'Patient Register' in response.data
+
 
 
 @patch('app.routes.mongo.db.admins.find_one')

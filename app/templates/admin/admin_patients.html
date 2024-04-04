@@ -150,7 +150,7 @@
 																	<a href="profile.html">{{ patient.first_name }} {{ patient.last_name }}</a>
 																</h2>
 															</td>
-															<td>{{ patient.address }}</td>
+															<td>{{ patient.address.street }}, {{ patient.address.city }} {{ patient.address.postcode }}</td>
 															<td>{{ patient.phone_number }}</td>
 															<td>
 																<span class="badge badge-pill {% if patient.registration_status == 'Approved' %}badge-success{% elif patient.registration_status == 'Rejected' %}badge-danger{% else %}badge-warning{% endif %}">
