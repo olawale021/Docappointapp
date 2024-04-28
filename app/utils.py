@@ -37,8 +37,7 @@ def is_doctor_available(doctor_id, date, time):
     return appointments_count == 0
 
 
-def get_all_doctors():
-    return mongo.db.doctors.find()
+
 
 
 from bson import ObjectId
@@ -142,6 +141,10 @@ def get_fixed_appointments_for_doctor(doctor_id):
         return []
 
 
+def get_all_patients():
+    return list(mongo.db.patients.find())
+
+
 def get_available_doctors_count():
     return mongo.db.doctors.count_documents({'registration_status': 'approved'})
 
@@ -159,23 +162,17 @@ def get_all_appointments():
     appointments_with_details = []
 
     for appointment in appointments:
-        # Use the .get() method for safe access
         patient_id = appointment.get('patient_id')
         doctor_id = appointment.get('doctor_id')
-
-        # Initialize as None to handle missing information
         patient_info = None
         doctor_info = None
 
-        # Fetch patient information if patient_id exists
         if patient_id:
             patient_info = mongo.db.patients.find_one({'_id': ObjectId(patient_id)})
 
-        # Fetch doctor information if doctor_id exists
         if doctor_id:
             doctor_info = mongo.db.doctors.find_one({'_id': ObjectId(doctor_id)})
 
-        # Update appointment details
         appointment_details = dict(appointment)
         appointment_details['patient_info'] = patient_info
         appointment_details['doctor_info'] = doctor_info
@@ -185,36 +182,19 @@ def get_all_appointments():
     return appointments_with_details
 
 
-def get_all_patients():
-    return list(mongo.db.patients.find())
+def get_all_doctors():
+    return mongo.db.doctors.find()
 
 
 def get_patients_by_registration_status(status):
-    """
-    Get patients based on their registration status.
-    Args:
-        status (str): Registration status, e.g., 'pending', 'approved'.
-    Returns:
-        list: List of patients with the specified registration status.
-    """
     return mongo.db.patients.find({'registration_status': status})
 
 
 def get_pending_patients():
-    """
-    Get patients with registration status 'pending'.
-    Returns:
-        list: List of patients with registration status 'pending'.
-    """
     return get_patients_by_registration_status('pending')
 
 
 def get_approved_patients():
-    """
-    Get patients with registration status 'approved'.
-    Returns:
-        list: List of patients with registration status 'approved'.
-    """
     return get_patients_by_registration_status('approved')
 
 

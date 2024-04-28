@@ -1,63 +1,52 @@
-from unittest.mock import patch
-import pytest
-from bson import ObjectId
-from flask import url_for
-
-from app import app as flask_app
-from werkzeug.security import generate_password_hash
-from flask import session
+import unittest
+from unittest.mock import patch, MagicMock
+from flask import template_rendered
+from app import app  # Adjust this to your application's structure
+from bson.objectid import ObjectId
+import cloudinary.uploader
 
 
-@pytest.fixture
-def client():
-    flask_app.config['TESTING'] = True
-    flask_app.config['WTF_CSRF_ENABLED'] = False  # Disable CSRF tokens for the tests
+class DoctorProfileSettingsTestCase(unittest.TestCase):
+    def setUp(self):
+        self.app = app.test_client()
+        self.app.testing = True
+        app.config['WTF_CSRF_ENABLED'] = False
 
-    with flask_app.test_client() as client:
-        yield client  # This provides a client for your test functions to use
+    @patch('app.mongo.db.doctors.find_one')
+    def test_doctor_profile_settings_get_not_logged_in(self, mock_find_one):
+        # Mock the session to not contain a doctor_id
+        with self.app as client:
+            response = client.get('/doctor_profile_settings')
+            self.assertEqual(response.status_code, 302)
+            self.assertTrue('/doctor_login' in response.headers['Location'])
 
+    @patch('app.mongo.db.doctors.find_one')
+    def test_doctor_profile_settings_get_success(self, mock_find_one):
+        # Setup the mock return value
+        mock_find_one.return_value = {'_id': ObjectId('66003d720cfcff3c4b8a0357')}
+        with self.app as client:
+            with client.session_transaction() as sess:
+                sess['doctor_id'] = str(ObjectId('66003d720cfcff3c4b8a0357'))
+            response = client.get('/doctor_profile_settings')
+            self.assertEqual(response.status_code, 200)
 
-def test_home_route(client):
-  # Mock the doctors collection to avoid interacting with a real database
-  with patch('app.mongo.db.doctors.find') as mock_find:
-    mock_find.return_value = [
-      {"username": "Dr. Linda HayWood", "registration_status": "approved"},
-      {"username": "Dr. Charles Washington", "registration_status": "approved"},
-    ]
+    @patch('cloudinary.uploader.upload')
+    @patch('app.mongo.db.doctors.update_one')
+    @patch('app.mongo.db.doctors.find_one')
+    def test_doctor_profile_settings_post_success(self, mock_find_one, mock_update_one, mock_cloudinary_upload):
+        # Mock database find_one return value and cloudinary upload
+        mock_find_one.return_value = {'_id': ObjectId('66003d720cfcff3c4b8a0357')}
+        mock_update_one.return_value = None  # Assuming successful update
+        mock_cloudinary_upload.return_value = {'secure_url': 'https://example.com/test.jpg'}
 
-    # Make a GET request to the home route
-    response = client.get('/')
-    # print(response.data)
-
-    # Assert the response status code
-    assert response.status_code == 200
-
-    # Assert the template is rendered with the correct context
-    assert b'Dr. Linda HayWood' in response.data
-    assert b'Dr. Charles Washington' in response.data
-
-
-def test_admin_login_missing_username(client):
-    """Test /admin_login endpoint with missing username."""
-    response = client.post('/admin_login', data={'password': 'testPassword'}, follow_redirects=True)
-    assert b'Username is required.' in response.data
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        with self.app as client:
+            with client.session_transaction() as sess:
+                sess['doctor_id'] = str(ObjectId('66003d720cfcff3c4b8a0357'))
+            data = {
+                'first_name': 'John',
+                'last_name': 'Doe',
+                # Add other form fields as necessary
+            }
+            response = client.post('/doctor_profile_settings', data=data, content_type='multipart/form-data')
+            self.assertEqual(response.status_code, 302)
+            self.assertTrue('/doctor_dashboard' in response.headers['Location'])

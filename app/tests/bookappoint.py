@@ -13,9 +13,9 @@ class CreateAppointmentTestCase(unittest.TestCase):
         app.config['SERVER_NAME'] = 'localhost.localdomain'
         app.config['WTF_CSRF_ENABLED'] = False
         self.patient_id = str(ObjectId('660d31266a03fcb618df8081'))
-        self.doctor_id = str(ObjectId('66003d1f0cfcff3c4b8a0356'))
-        self.future_date = '2024-04-27'
-        self.time = '09:00 - 09:30'
+        # self.doctor_id = str(ObjectId('66003d1f0cfcff3c4b8a0356'))
+        # self.future_date = '2024-04-28'
+        # self.time = '09:00 - 09:30'
 
     @patch('app.mongo.db.appointments.insert_one')
     @patch('app.utils.is_doctor_available', return_value=True)
@@ -25,8 +25,10 @@ class CreateAppointmentTestCase(unittest.TestCase):
             with c.session_transaction() as sess:
                 sess['patient_id'] = self.patient_id
             response = c.post('/create_appointment', data={
-                'doctor_id': self.doctor_id,
-                'date': self.future_date,
-                'time': self.time
+                'doctor_id': str(ObjectId('66003d1f0cfcff3c4b8a0356')),
+                'date': '2024-04-30',
+                'time': '09:00 - 09:30'
             }, follow_redirects=True)
             self.assertIn(b'Your Appointment Booked Successfully', response.data)
+
+

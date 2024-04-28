@@ -229,28 +229,26 @@ def admin_login():
 
 
 @app.route('/admin_dashboard', methods=['GET', 'POST'])
-@login_required
 def admin_dashboard():
-    # Only authenticated users can access this route
-    # Show the admin dashboard
+
+    if 'user_id' not in session:
+        # If not found, redirect to the login page
+        return redirect(url_for('admin_login'))
+
     patients_cursor = mongo.db.patients.find()
     doctor_cursor = mongo.db.doctors.find()
-    # No need to fetch pending doctors
 
-    # Convert cursors to lists for counting and passing to template
     all_patients = list(patients_cursor)
-    all_doctors = list(doctor_cursor)  # Use the function to get total doctors count
-    total_appointments_count = get_total_appointments_count()
+    all_doctors = list(doctor_cursor)
 
-    # Fetch all appointments and patients
-    all_appointments = get_all_appointments()
     all_patients = len(all_patients)
     all_doctors = len(all_doctors)
+
+    total_appointments_count = get_total_appointments_count()
+    all_appointments = get_all_appointments()
     doctors = get_all_doctors()
     pending_patients = get_pending_patients()
     approved_patients = get_approved_patients()
-    sample_appointment = all_appointments[0] if all_appointments else None
-    # print("smple", all_appointments)
 
     return render_template('admin/admin_dashboard.html',
                            all_patients=all_patients,
@@ -586,16 +584,12 @@ def admin_appointments():
         return redirect(url_for('admin_dashboard', csrf_token=generate_csrf()))
 
 
-# Route to update appointment status
 @app.route('/admin/appointments/update_status', methods=['POST'])
 def update_appointment_status():
     data = request.json
     appointment_id = data.get('appointment_id')
     new_status = data.get('new_status')
 
-    # Server-side logging
-    print(f"Attempting to update appointment {appointment_id} to status {new_status}")
-    print(data)
     try:
         result = mongo.db.appointments.update_one(
             {'_id': ObjectId(appointment_id)},
@@ -605,18 +599,17 @@ def update_appointment_status():
         if result.modified_count > 0:
             print(f"Successfully updated appointment {appointment_id} to status {new_status}")
             flash('Appointment status updated successfully.', 'success')
-            return jsonify({'message': 'Success'})
+            return redirect(url_for('admin_appointments'))
         else:
             print(f"No changes made for appointment {appointment_id}")
             flash('No changes made to appointment status.', 'info')
-            return jsonify({'message': 'No changes made'}), 200
+            return redirect(url_for('admin_appointments'))
     except Exception as e:
         print(f"Failed to update appointment status: {str(e)}")
         flash(f"Failed to update appointment status: {str(e)}", 'error')
-        return jsonify({'message': 'Failed to update status'}), 500
+        return redirect(url_for('admin_appointments'))
 
 
-# Route to delete appointment
 @app.route('/admin/appointments/delete/<appointment_id>', methods=['POST'])
 def admin_delete_appointment(appointment_id):
     try:

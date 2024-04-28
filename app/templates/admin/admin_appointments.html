@@ -134,6 +134,9 @@
 											<div class="table-responsive">
 												<table class="datatable table table-hover table-center mb-0">
 													<thead>
+													{% for category, message in get_flashed_messages(with_categories=true) %}
+														<div class="{{ category }}">{{ message }}</div>
+													{% endfor %}
 														<tr>
 															<th>Doctor Name</th>
 															<th>Patient Name</th>

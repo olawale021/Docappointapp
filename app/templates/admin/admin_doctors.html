@@ -131,6 +131,9 @@
 									<div class="card">
 										<div class="card-body">
 											<div class="table-responsive">
+												{% for category, message in get_flashed_messages(with_categories=true) %}
+													<div class="{{ category }}">{{ message }}</div>
+												{% endfor %}
 												<table class="datatable table table-hover table-center mb-0">
 													<thead>
 														<tr>

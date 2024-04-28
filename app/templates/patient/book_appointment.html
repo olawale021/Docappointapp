@@ -148,6 +148,9 @@
 					<div class="row">
 						<div class="col-lg-8 col-md-12">
 							<div class="booking-header">
+								{% for category, message in get_flashed_messages(with_categories=true) %}
+											<div class="{{ category }}">{{ message }}</div>
+										{% endfor %}
 								<h4 class="booking-title">Select Available Slots</h4>
 							</div>
 

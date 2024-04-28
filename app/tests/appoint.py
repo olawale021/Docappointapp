@@ -5,10 +5,8 @@ from unittest.mock import patch, MagicMock
 from bson.objectid import ObjectId
 from flask_wtf.csrf import generate_csrf
 
-# Assuming 'yourapp' is the name of your module where the Flask app is defined.
 
 class TestAppointment(unittest.TestCase):
-
     def setUp(self):
         # Configure the Flask test client
         self.client = app.test_client()
