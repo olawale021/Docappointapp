@@ -10,6 +10,9 @@ import logging
 
 
 app = Flask(__name__, template_folder='templates')
+
+app.config['APPLICATION_ROOT'] = '/Docappointapp'
+
 app.config.from_object('app.config.Config')
 
 login_manager = LoginManager(app)
