@@ -26,7 +26,7 @@ import io
 def home():
     doctors_collection = mongo.db.doctors
     approved_doctors = doctors_collection.find({"registration_status": "approved"})
-    return render_template('Homepage.html', doctors=approved_doctors)
+    return render_template('homepage.html', doctors=approved_doctors)
 
 
 @app.route('/patient_registration', methods=['GET', 'POST'])
